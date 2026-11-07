@@ -1,0 +1,20 @@
+{
+  "tufts_n": 1000,
+  "tufts_abnormal": 337,
+  "tufts_boxes": 374,
+  "dentex_val_n": 50,
+  "dentex_val_abnormal": 46,
+  "dentex_val_boxes": 182,
+  "dentex_val_diagnosis": {
+    "Impacted": 40,
+    "Caries": 101,
+    "Periapical Lesion": 9,
+    "Deep Caries": 32
+  },
+  "dentex_val_quadrant": {
+    "4": 42,
+    "3": 59,
+    "1": 49,
+    "2": 32
+  }
+}

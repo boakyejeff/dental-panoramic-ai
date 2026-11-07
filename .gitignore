@@ -1,0 +1,7 @@
+data/
+cache512/
+cache1024/
+__pycache__/
+*.pyc
+*.pt
+*.pth

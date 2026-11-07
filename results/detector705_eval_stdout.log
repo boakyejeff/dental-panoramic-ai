@@ -1,0 +1,107 @@
+train 705 images, val 50, tufts test 151
+FDI enum model: 32 (quadrant,position) medians, counts min 341 max 630
+rare-class duplication: +553 copies/epoch (periapical x2, deep caries x1)
+loaded checkpoint results/fasterrcnn_dentex705_ep2.pt (eval-only)
+--- threshold 0.5 ---
+{
+  "n_train_images": 705,
+  "n_val_images": 50,
+  "n_val_gt_boxes": 182,
+  "score_threshold": 0.5,
+  "ap_per_diagnosis_iou05": {
+    "Impacted": 0.676,
+    "Caries": 0.118,
+    "Periapical Lesion": 0.289,
+    "Deep Caries": 0.0
+  },
+  "mean_ap_iou05": 0.271,
+  "quadrant_accuracy_matched": 0.941,
+  "quadrant_n_matched": 68,
+  "fdi_position_accuracy_rank_method": 0.0,
+  "fdi_position_accuracy_enum_model": 0.529,
+  "fdi_n_matched": 68,
+  "image_level_dentex_val": {
+    "tp": 40,
+    "fn": 6,
+    "fp": 2,
+    "tn": 2
+  },
+  "cross_dataset_tufts_test_image_level": {
+    "n": 151,
+    "tp": 30,
+    "fn": 21,
+    "tn": 36,
+    "fp": 64,
+    "sensitivity": 0.588,
+    "specificity": 0.36,
+    "sensitivity_by_type": {
+      "Non-Odontogenic": {
+        "detected": 6,
+        "total": 12,
+        "sens": 0.5
+      },
+      "Periapical": {
+        "detected": 22,
+        "total": 39,
+        "sens": 0.564
+      },
+      "Pericoronal": {
+        "detected": 5,
+        "total": 5,
+        "sens": 1.0
+      }
+    }
+  }
+}
+--- threshold 0.3 ---
+{
+  "n_train_images": 705,
+  "n_val_images": 50,
+  "n_val_gt_boxes": 182,
+  "score_threshold": 0.3,
+  "ap_per_diagnosis_iou05": {
+    "Impacted": 0.729,
+    "Caries": 0.188,
+    "Periapical Lesion": 0.353,
+    "Deep Caries": 0.041
+  },
+  "mean_ap_iou05": 0.328,
+  "quadrant_accuracy_matched": 0.935,
+  "quadrant_n_matched": 107,
+  "fdi_position_accuracy_rank_method": 0.0,
+  "fdi_position_accuracy_enum_model": 0.561,
+  "fdi_n_matched": 107,
+  "image_level_dentex_val": {
+    "tp": 45,
+    "fn": 1,
+    "fp": 4,
+    "tn": 0
+  },
+  "cross_dataset_tufts_test_image_level": {
+    "n": 151,
+    "tp": 47,
+    "fn": 4,
+    "tn": 15,
+    "fp": 85,
+    "sensitivity": 0.922,
+    "specificity": 0.15,
+    "sensitivity_by_type": {
+      "Non-Odontogenic": {
+        "detected": 9,
+        "total": 12,
+        "sens": 0.75
+      },
+      "Periapical": {
+        "detected": 37,
+        "total": 39,
+        "sens": 0.949
+      },
+      "Pericoronal": {
+        "detected": 5,
+        "total": 5,
+        "sens": 1.0
+      }
+    }
+  }
+}
+saved detector_metrics_705.json + predictions + examples

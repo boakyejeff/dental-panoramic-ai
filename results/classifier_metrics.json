@@ -1,0 +1,61 @@
+{
+  "best_epoch": 3,
+  "best_val_auc": 0.5044563279857397,
+  "tufts_val": {
+    "n": 150,
+    "n_pos": 51,
+    "auc": 0.5044563279857397,
+    "accuracy": 0.4866666666666667,
+    "sensitivity": 0.6666666666666666,
+    "specificity": 0.3939393939393939,
+    "tp": 34,
+    "tn": 39,
+    "fp": 60,
+    "fn": 17,
+    "ece": 0.2728975049654643
+  },
+  "tufts_test": {
+    "n": 151,
+    "n_pos": 51,
+    "auc": 0.6519607843137254,
+    "accuracy": 0.5231788079470199,
+    "sensitivity": 0.7058823529411765,
+    "specificity": 0.43,
+    "tp": 36,
+    "tn": 43,
+    "fp": 57,
+    "fn": 15,
+    "ece": 0.27477906200269986
+  },
+  "dentex_val": {
+    "n": 50,
+    "n_pos": 46,
+    "auc": 0.2826086956521739,
+    "accuracy": 0.46,
+    "sensitivity": 0.4782608695652174,
+    "specificity": 0.25,
+    "tp": 22,
+    "tn": 1,
+    "fp": 3,
+    "fn": 24,
+    "ece": 0.3896693527698517
+  },
+  "tufts_test_sensitivity_by_type": {
+    "Non-Odontogenic": {
+      "detected": 6,
+      "total": 12,
+      "sens": 0.5
+    },
+    "Periapical": {
+      "detected": 30,
+      "total": 39,
+      "sens": 0.769
+    },
+    "Pericoronal": {
+      "detected": 3,
+      "total": 5,
+      "sens": 0.6
+    }
+  },
+  "note": "Saved checkpoint is the final-epoch (ep 3) model: best_state tensors shared storage with parameters (missing .clone()), so the ep-2 argmax was overwritten by ep-3 weights. Fixed in src/train_classifier.py for future runs. All metrics in this file are from the ep-3 checkpoint as evaluated."
+}

@@ -1,0 +1,7 @@
+train 699 (pos 235), val 150, test 151 (pos 51)
+DENTEX val cross-test: 50 (pos 46)
+ep 0: train_loss 1.0236 val AUC 0.447 acc 0.520 sens 0.451 spec 0.556 (324s)
+ep 1: train_loss 0.9089 val AUC 0.490 acc 0.540 sens 0.490 spec 0.566 (327s)
+ep 2: train_loss 0.8737 val AUC 0.519 acc 0.547 sens 0.490 spec 0.576 (337s)
+ep 3: train_loss 0.8802 val AUC 0.523 acc 0.480 sens 0.412 spec 0.515 (304s)
+ep 4: train_loss 0.8158 val AUC 0.497 acc 0.580 sens 0.275 spec 0.737 (315s)

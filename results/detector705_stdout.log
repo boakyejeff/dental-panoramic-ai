@@ -1,0 +1,29 @@
+train 705 images, val 50, tufts test 151
+FDI enum model: 32 (quadrant,position) medians, counts min 341 max 630
+rare-class duplication: +553 copies/epoch (periapical x2, deep caries x1)
+resumed from results/fasterrcnn_dentex705_ep1.pt
+optimizer lr=0.0005
+  ep 2 step 200/1258 loss 0.569 (321s)
+  ep 2 step 400/1258 loss 0.549 (635s)
+  ep 2 step 600/1258 loss 0.547 (944s)
+  ep 2 step 800/1258 loss 0.544 (1268s)
+  ep 2 step 1000/1258 loss 0.539 (1603s)
+  ep 2 step 1200/1258 loss 0.532 (1938s)
+ep 2: loss 0.532 (2037s)
+saved checkpoint ep2
+Traceback (most recent call last):
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_detector_705.py", line 460, in <module>
+    main()
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_detector_705.py", line 413, in main
+    det, rows = evaluate(model, val_items, tufts_items, fdi_model, score_thr=thr)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_detector_705.py", line 216, in evaluate
+    x = load_image_tensor(p, False, 1.0, 1.0)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_detector_705.py", line 129, in load_image_tensor
+    im = Image.open(path).convert("RGB")
+         ^^^^^^^^^^^^^^^^
+  File "/home/hatch/workspace/venvs/crop-disease/lib/python3.12/site-packages/PIL/Image.py", line 3639, in open
+    fp = builtins.open(filename, "rb")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/data/cache768/dentex/val_15.jpg'

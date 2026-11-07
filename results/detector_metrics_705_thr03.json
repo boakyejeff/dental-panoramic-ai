@@ -1,0 +1,50 @@
+{
+  "n_train_images": 705,
+  "n_val_images": 50,
+  "n_val_gt_boxes": 182,
+  "score_threshold": 0.3,
+  "ap_per_diagnosis_iou05": {
+    "Impacted": 0.729,
+    "Caries": 0.188,
+    "Periapical Lesion": 0.353,
+    "Deep Caries": 0.041
+  },
+  "mean_ap_iou05": 0.328,
+  "quadrant_accuracy_matched": 0.935,
+  "quadrant_n_matched": 107,
+  "fdi_position_accuracy_rank_method": 0.0,
+  "fdi_position_accuracy_enum_model": 0.561,
+  "fdi_n_matched": 107,
+  "image_level_dentex_val": {
+    "tp": 45,
+    "fn": 1,
+    "fp": 4,
+    "tn": 0
+  },
+  "cross_dataset_tufts_test_image_level": {
+    "n": 151,
+    "tp": 47,
+    "fn": 4,
+    "tn": 15,
+    "fp": 85,
+    "sensitivity": 0.922,
+    "specificity": 0.15,
+    "sensitivity_by_type": {
+      "Non-Odontogenic": {
+        "detected": 9,
+        "total": 12,
+        "sens": 0.75
+      },
+      "Periapical": {
+        "detected": 37,
+        "total": 39,
+        "sens": 0.949
+      },
+      "Pericoronal": {
+        "detected": 5,
+        "total": 5,
+        "sens": 1.0
+      }
+    }
+  }
+}

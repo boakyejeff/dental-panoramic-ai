@@ -1,0 +1,140 @@
+Tufts train 699 val 150 test 151; DENTEX train pool 705 (pos 678 neg 27), added 102; DENTEX val 50
+ep 0: train_loss 0.9266 val AUC 0.448 acc 0.387 sens 0.549 spec 0.303 (385s)
+ep 1: train_loss 0.8442 val AUC 0.515 acc 0.373 sens 0.941 spec 0.081 (370s)
+ep 2: train_loss 0.8319 val AUC 0.537 acc 0.593 sens 0.137 spec 0.828 (357s)
+ep 3: train_loss 0.7884 val AUC 0.527 acc 0.600 sens 0.353 spec 0.727 (371s)
+temperature T=1.75 (val NLL 0.685)
+tuned threshold 0.45 (val Youden J 0.056)
+tufts_val {
+ "at_0.5_raw": {
+  "n": 150,
+  "n_pos": 51,
+  "auc": 0.5365418894830659,
+  "accuracy": 0.5933333333333334,
+  "sensitivity": 0.13725490196078433,
+  "specificity": 0.8282828282828283,
+  "tp": 7,
+  "tn": 82,
+  "fp": 17,
+  "fn": 44,
+  "ece": 0.13065685053666434,
+  "threshold": 0.5
+ },
+ "at_0.5_calibrated": {
+  "n": 150,
+  "n_pos": 51,
+  "auc": 0.5365418894830659,
+  "accuracy": 0.5933333333333334,
+  "sensitivity": 0.13725490196078433,
+  "specificity": 0.8282828282828283,
+  "tp": 7,
+  "tn": 82,
+  "fp": 17,
+  "fn": 44,
+  "ece": 0.1374869985603428,
+  "threshold": 0.5
+ },
+ "at_tuned_threshold_calibrated": {
+  "n": 150,
+  "n_pos": 51,
+  "auc": 0.5365418894830659,
+  "accuracy": 0.43333333333333335,
+  "sensitivity": 0.8235294117647058,
+  "specificity": 0.23232323232323232,
+  "tp": 42,
+  "tn": 23,
+  "fp": 76,
+  "fn": 9,
+  "ece": 0.1374869985603428,
+  "threshold": 0.45000000000000007
+ }
+}
+tufts_test {
+ "at_0.5_raw": {
+  "n": 151,
+  "n_pos": 51,
+  "auc": 0.6025490196078431,
+  "accuracy": 0.6225165562913907,
+  "sensitivity": 0.2549019607843137,
+  "specificity": 0.81,
+  "tp": 13,
+  "tn": 81,
+  "fp": 19,
+  "fn": 38,
+  "ece": 0.1250310498752341,
+  "threshold": 0.5
+ },
+ "at_0.5_calibrated": {
+  "n": 151,
+  "n_pos": 51,
+  "auc": 0.6025490196078431,
+  "accuracy": 0.6225165562913907,
+  "sensitivity": 0.2549019607843137,
+  "specificity": 0.81,
+  "tp": 13,
+  "tn": 81,
+  "fp": 19,
+  "fn": 38,
+  "ece": 0.14590262639208104,
+  "threshold": 0.5
+ },
+ "at_tuned_threshold_calibrated": {
+  "n": 151,
+  "n_pos": 51,
+  "auc": 0.6025490196078431,
+  "accuracy": 0.45695364238410596,
+  "sensitivity": 0.9411764705882353,
+  "specificity": 0.21,
+  "tp": 48,
+  "tn": 21,
+  "fp": 79,
+  "fn": 3,
+  "ece": 0.14590262639208104,
+  "threshold": 0.45000000000000007
+ }
+}
+dentex_val {
+ "at_0.5_raw": {
+  "n": 50,
+  "n_pos": 46,
+  "auc": 0.8423913043478262,
+  "accuracy": 0.88,
+  "sensitivity": 0.9347826086956522,
+  "specificity": 0.25,
+  "tp": 43,
+  "tn": 1,
+  "fp": 3,
+  "fn": 3,
+  "ece": 0.21735440790653227,
+  "threshold": 0.5
+ },
+ "at_0.5_calibrated": {
+  "n": 50,
+  "n_pos": 46,
+  "auc": 0.8423913043478262,
+  "accuracy": 0.88,
+  "sensitivity": 0.9347826086956522,
+  "specificity": 0.25,
+  "tp": 43,
+  "tn": 1,
+  "fp": 3,
+  "fn": 3,
+  "ece": 0.2830703892777647,
+  "threshold": 0.5
+ },
+ "at_tuned_threshold_calibrated": {
+  "n": 50,
+  "n_pos": 46,
+  "auc": 0.8423913043478262,
+  "accuracy": 0.92,
+  "sensitivity": 1.0,
+  "specificity": 0.0,
+  "tp": 46,
+  "tn": 0,
+  "fp": 4,
+  "fn": 0,
+  "ece": 0.2830703892777647,
+  "threshold": 0.45000000000000007
+ }
+}
+saved classifier v2 metrics + roc_v2.png + checkpoint

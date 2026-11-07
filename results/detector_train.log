@@ -1,0 +1,37 @@
+DENTEX val pilot: train 40 images, test 10
+ep 0: loss 0.715 (581s)
+ep 1: loss 0.674 (1083s)
+ep 2: loss 0.581 (1251s)
+ep 3: loss 0.470 (767s)
+detector metrics: {
+  "n_train_images": 40,
+  "n_test_images": 10,
+  "n_test_gt_boxes": 37,
+  "ap_per_diagnosis_iou05": {
+    "Impacted": 0.25,
+    "Caries": 0.278,
+    "Periapical Lesion": 0.0,
+    "Deep Caries": 0.0
+  },
+  "mean_ap_iou05": 0.132,
+  "quadrant_accuracy_matched": 0.938,
+  "quadrant_n_matched": 16,
+  "fdi_position_accuracy_matched": 0.0,
+  "fdi_n_matched": 16,
+  "image_level_dentex_test": {
+    "tp": 10,
+    "fn": 0,
+    "fp": 0,
+    "tn": 0
+  }
+}
+Traceback (most recent call last):
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_detector.py", line 260, in <module>
+    main()
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_detector.py", line 197, in main
+    tufts = load_tufts_test()
+            ^^^^^^^^^^^^^^^^^
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_detector.py", line 58, in load_tufts_test
+    int(r["y"]), r["types"]) for r in test]
+    ^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: '1.0'

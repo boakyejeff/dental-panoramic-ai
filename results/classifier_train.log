@@ -1,0 +1,17 @@
+train 699 (pos 235), val 150, test 151 (pos 51)
+DENTEX val cross-test: 50 (pos 46)
+ep 0: train_loss 1.0236 val AUC 0.447 acc 0.520 sens 0.451 spec 0.556 (361s)
+ep 1: train_loss 0.9082 val AUC 0.491 acc 0.533 sens 0.529 spec 0.535 (331s)
+ep 2: train_loss 0.8545 val AUC 0.520 acc 0.367 sens 0.784 spec 0.152 (329s)
+ep 3: train_loss 0.8288 val AUC 0.504 acc 0.487 sens 0.667 spec 0.394 (308s)
+tufts_val {'n': 150, 'n_pos': 51, 'auc': 0.5044563279857397, 'accuracy': 0.4866666666666667, 'sensitivity': 0.6666666666666666, 'specificity': 0.3939393939393939, 'tp': 34, 'tn': 39, 'fp': 60, 'fn': 17, 'ece': 0.2728975049654643}
+tufts_test {'n': 151, 'n_pos': 51, 'auc': 0.6519607843137254, 'accuracy': 0.5231788079470199, 'sensitivity': 0.7058823529411765, 'specificity': 0.43, 'tp': 36, 'tn': 43, 'fp': 57, 'fn': 15, 'ece': 0.27477906200269986}
+dentex_val {'n': 50, 'n_pos': 46, 'auc': 0.2826086956521739, 'accuracy': 0.46, 'sensitivity': 0.4782608695652174, 'specificity': 0.25, 'tp': 22, 'tn': 1, 'fp': 3, 'fn': 24, 'ece': 0.3896693527698517}
+sensitivity by abnormality type (Tufts test): {'Non-Odontogenic': {'detected': 6, 'total': 12, 'sens': 0.5}, 'Periapical': {'detected': 30, 'total': 39, 'sens': 0.769}, 'Pericoronal': {'detected': 3, 'total': 5, 'sens': 0.6}}
+Traceback (most recent call last):
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_classifier.py", line 174, in <module>
+    main()
+  File "/home/hatch/workspace/goals/open-medical-dataset-ml-portfolio-projects/files/dental-panoramic-ai/src/train_classifier.py", line 166, in main
+    ax.plot(fpr, tpr, label=f"{name} (AUC {roc_auc_score(y, p):.2f})")
+                                           ^^^^^^^^^^^^^
+NameError: name 'roc_auc_score' is not defined
