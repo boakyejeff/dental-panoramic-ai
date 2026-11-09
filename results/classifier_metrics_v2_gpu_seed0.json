@@ -1,0 +1,213 @@
+{
+  "best_epoch": 3,
+  "best_val_auc": 0.6268568033273916,
+  "cross_site_thresholds": {
+    "dentex_oracle_threshold": 0.7,
+    "dentex_val_at_tufts_oracle": {
+      "accuracy": 0.86,
+      "auc": 0.5759444360852217,
+      "ece": 0.0969854774462926,
+      "fn": 3,
+      "fp": 4,
+      "n": 50,
+      "n_pos": 46,
+      "sensitivity": 0.9347826086956522,
+      "specificity": 0.0,
+      "threshold": 0.35000000000000003,
+      "tn": 0,
+      "tp": 43
+    },
+    "note": "Oracle thresholds are tuned on the split they are evaluated on (upper bound, not deployable); the cross-application rows show what each site's threshold does on the other site.",
+    "tufts_oracle_threshold": 0.35000000000000003,
+    "tufts_test_at_dentex_oracle": {
+      "accuracy": 0.7086092715231788,
+      "auc": 0.5863851857395639,
+      "ece": 0.03176977258463246,
+      "fn": 42,
+      "fp": 2,
+      "n": 151,
+      "n_pos": 51,
+      "sensitivity": 0.17647058823529413,
+      "specificity": 0.98,
+      "threshold": 0.7,
+      "tn": 98,
+      "tp": 9
+    }
+  },
+  "dentex_train_added": 102,
+  "dentex_train_pool": 705,
+  "dentex_val": {
+    "at_0.5_calibrated": {
+      "accuracy": 0.12,
+      "auc": 0.5759444360852217,
+      "ece": 0.0969854774462926,
+      "fn": 44,
+      "fp": 0,
+      "n": 50,
+      "n_pos": 46,
+      "sensitivity": 0.043478260869565216,
+      "specificity": 1.0,
+      "threshold": 0.5,
+      "tn": 4,
+      "tp": 2
+    },
+    "at_0.5_raw": {
+      "accuracy": 0.12,
+      "auc": 0.5759444360852217,
+      "ece": 0.0980154515344222,
+      "fn": 44,
+      "fp": 0,
+      "n": 50,
+      "n_pos": 46,
+      "sensitivity": 0.043478260869565216,
+      "specificity": 1.0,
+      "threshold": 0.5,
+      "tn": 4,
+      "tp": 2
+    },
+    "at_tuned_threshold_calibrated": {
+      "accuracy": 0.86,
+      "auc": 0.5759444360852217,
+      "ece": 0.0969854774462926,
+      "fn": 3,
+      "fp": 4,
+      "n": 50,
+      "n_pos": 46,
+      "sensitivity": 0.9347826086956522,
+      "specificity": 0.0,
+      "threshold": 0.3500000000000001,
+      "tn": 0,
+      "tp": 43
+    },
+    "oracle_threshold": {
+      "accuracy": 0.26,
+      "sensitivity": 0.14130434782608692,
+      "specificity": 1.0,
+      "threshold": 0.7,
+      "youden_j": 0.14130434782608692
+    }
+  },
+  "seed": 0,
+  "tag": "v2_gpu",
+  "temperature": 1.25,
+  "tufts_test": {
+    "at_0.5_calibrated": {
+      "accuracy": 0.6688741721854305,
+      "auc": 0.5863851857395639,
+      "ece": 0.03176977258463246,
+      "fn": 40,
+      "fp": 10,
+      "n": 151,
+      "n_pos": 51,
+      "sensitivity": 0.21568627450980393,
+      "specificity": 0.9,
+      "threshold": 0.5,
+      "tn": 90,
+      "tp": 11
+    },
+    "at_0.5_raw": {
+      "accuracy": 0.6688741721854305,
+      "auc": 0.5863851857395639,
+      "ece": 0.044270953367220596,
+      "fn": 40,
+      "fp": 10,
+      "n": 151,
+      "n_pos": 51,
+      "sensitivity": 0.21568627450980393,
+      "specificity": 0.9,
+      "threshold": 0.5,
+      "tn": 90,
+      "tp": 11
+    },
+    "at_tuned_threshold_calibrated": {
+      "accuracy": 0.5364238410596026,
+      "auc": 0.5863851857395639,
+      "ece": 0.03176977258463246,
+      "fn": 14,
+      "fp": 56,
+      "n": 151,
+      "n_pos": 51,
+      "sensitivity": 0.7254901960784313,
+      "specificity": 0.44,
+      "threshold": 0.3500000000000001,
+      "tn": 44,
+      "tp": 37
+    },
+    "oracle_threshold": {
+      "accuracy": 0.7086092715231788,
+      "sensitivity": 0.17647058823529413,
+      "specificity": 0.98,
+      "threshold": 0.1000000000000001,
+      "youden_j": 0.15686274509803916
+    }
+  },
+  "tufts_test_sensitivity_by_type": {
+    "Non-Odontogenic": {
+      "detected": 5,
+      "sens": 0.312,
+      "total": 16
+    },
+    "Periapical": {
+      "detected": 16,
+      "sens": 0.516,
+      "total": 31
+    },
+    "Pericoronal": {
+      "detected": 3,
+      "sens": 0.273,
+      "total": 11
+    }
+  },
+  "tufts_val": {
+    "at_0.5_calibrated": {
+      "accuracy": 0.6533333333333333,
+      "auc": 0.6268568033273916,
+      "ece": 0.07283475769097267,
+      "fn": 33,
+      "fp": 19,
+      "n": 150,
+      "n_pos": 51,
+      "sensitivity": 0.35294117647058826,
+      "specificity": 0.8080808080808081,
+      "threshold": 0.5,
+      "tn": 80,
+      "tp": 18
+    },
+    "at_0.5_raw": {
+      "accuracy": 0.6533333333333333,
+      "auc": 0.6268568033273916,
+      "ece": 0.07315029720465342,
+      "fn": 33,
+      "fp": 19,
+      "n": 150,
+      "n_pos": 51,
+      "sensitivity": 0.35294117647058826,
+      "specificity": 0.8080808080808081,
+      "threshold": 0.5,
+      "tn": 80,
+      "tp": 18
+    },
+    "at_tuned_threshold_calibrated": {
+      "accuracy": 0.56,
+      "auc": 0.6268568033273916,
+      "ece": 0.07283475769097267,
+      "fn": 14,
+      "fp": 52,
+      "n": 150,
+      "n_pos": 51,
+      "sensitivity": 0.7254901960784313,
+      "specificity": 0.47474747474747475,
+      "threshold": 0.3500000000000001,
+      "tn": 47,
+      "tp": 37
+    },
+    "oracle_threshold": {
+      "accuracy": 0.56,
+      "sensitivity": 0.7254901960784313,
+      "specificity": 0.47474747474747475,
+      "threshold": 0.35000000000000003,
+      "youden_j": 0.08995165341341815
+    }
+  },
+  "tuned_threshold": 0.3500000000000001
+}

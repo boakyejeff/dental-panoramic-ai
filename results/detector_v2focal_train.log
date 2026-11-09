@@ -1,0 +1,202 @@
+train 705 DENTEX + 200 Tufts negatives = 905 images, val 50, tufts test 151
+FDI enum model: 32 (quadrant,position) medians, counts min 341 max 630
+rare-class duplication: +553 copies/epoch (periapical x2, deep caries x1)
+steps/epoch: 1458
+optimizer lr=0.005
+  ep 0 step 200/1458 loss 0.362 (35s)
+  ep 0 step 400/1458 loss 0.327 (68s)
+  ep 0 step 600/1458 loss 0.301 (102s)
+  ep 0 step 800/1458 loss 0.290 (135s)
+  ep 0 step 1000/1458 loss 0.283 (170s)
+  ep 0 step 1200/1458 loss 0.274 (204s)
+  ep 0 step 1400/1458 loss 0.269 (238s)
+ep 0: loss 0.268 (248s)
+saved checkpoint ep0
+  ep 1 step 200/1458 loss 0.214 (35s)
+  ep 1 step 400/1458 loss 0.211 (69s)
+  ep 1 step 600/1458 loss 0.212 (103s)
+  ep 1 step 800/1458 loss 0.211 (138s)
+  ep 1 step 1000/1458 loss 0.210 (172s)
+  ep 1 step 1200/1458 loss 0.207 (207s)
+  ep 1 step 1400/1458 loss 0.209 (242s)
+ep 1: loss 0.210 (251s)
+saved checkpoint ep1
+  ep 2 step 200/1458 loss 0.182 (35s)
+  ep 2 step 400/1458 loss 0.174 (69s)
+  ep 2 step 600/1458 loss 0.168 (104s)
+  ep 2 step 800/1458 loss 0.170 (138s)
+  ep 2 step 1000/1458 loss 0.168 (173s)
+  ep 2 step 1200/1458 loss 0.166 (207s)
+  ep 2 step 1400/1458 loss 0.167 (242s)
+ep 2: loss 0.167 (252s)
+saved checkpoint ep2
+  ep 3 step 200/1458 loss 0.168 (35s)
+  ep 3 step 400/1458 loss 0.160 (69s)
+  ep 3 step 600/1458 loss 0.161 (104s)
+  ep 3 step 800/1458 loss 0.159 (138s)
+  ep 3 step 1000/1458 loss 0.158 (173s)
+  ep 3 step 1200/1458 loss 0.158 (207s)
+  ep 3 step 1400/1458 loss 0.157 (242s)
+ep 3: loss 0.157 (252s)
+saved checkpoint ep3
+  ep 4 step 200/1458 loss 0.145 (34s)
+  ep 4 step 400/1458 loss 0.143 (69s)
+  ep 4 step 600/1458 loss 0.147 (103s)
+  ep 4 step 800/1458 loss 0.148 (138s)
+  ep 4 step 1000/1458 loss 0.149 (172s)
+  ep 4 step 1200/1458 loss 0.149 (207s)
+  ep 4 step 1400/1458 loss 0.147 (241s)
+ep 4: loss 0.147 (251s)
+saved checkpoint ep4
+  ep 5 step 200/1458 loss 0.137 (34s)
+  ep 5 step 400/1458 loss 0.145 (69s)
+  ep 5 step 600/1458 loss 0.145 (103s)
+  ep 5 step 800/1458 loss 0.145 (138s)
+  ep 5 step 1000/1458 loss 0.145 (172s)
+  ep 5 step 1200/1458 loss 0.146 (207s)
+  ep 5 step 1400/1458 loss 0.147 (241s)
+ep 5: loss 0.146 (251s)
+saved checkpoint ep5
+  ep 6 step 200/1458 loss 0.136 (34s)
+  ep 6 step 400/1458 loss 0.139 (69s)
+  ep 6 step 600/1458 loss 0.145 (103s)
+  ep 6 step 800/1458 loss 0.145 (138s)
+  ep 6 step 1000/1458 loss 0.143 (172s)
+  ep 6 step 1200/1458 loss 0.144 (207s)
+  ep 6 step 1400/1458 loss 0.145 (241s)
+ep 6: loss 0.146 (251s)
+saved checkpoint ep6
+  ep 7 step 200/1458 loss 0.147 (35s)
+  ep 7 step 400/1458 loss 0.144 (69s)
+  ep 7 step 600/1458 loss 0.143 (103s)
+  ep 7 step 800/1458 loss 0.144 (138s)
+  ep 7 step 1000/1458 loss 0.147 (172s)
+  ep 7 step 1200/1458 loss 0.146 (207s)
+  ep 7 step 1400/1458 loss 0.147 (241s)
+ep 7: loss 0.146 (251s)
+saved checkpoint ep7
+  ep 8 step 200/1458 loss 0.145 (35s)
+  ep 8 step 400/1458 loss 0.149 (69s)
+  ep 8 step 600/1458 loss 0.149 (104s)
+  ep 8 step 800/1458 loss 0.148 (138s)
+  ep 8 step 1000/1458 loss 0.149 (173s)
+  ep 8 step 1200/1458 loss 0.146 (207s)
+  ep 8 step 1400/1458 loss 0.146 (242s)
+ep 8: loss 0.146 (251s)
+saved checkpoint ep8
+  ep 9 step 200/1458 loss 0.139 (35s)
+  ep 9 step 400/1458 loss 0.142 (69s)
+  ep 9 step 600/1458 loss 0.142 (103s)
+  ep 9 step 800/1458 loss 0.142 (138s)
+  ep 9 step 1000/1458 loss 0.145 (173s)
+  ep 9 step 1200/1458 loss 0.146 (207s)
+  ep 9 step 1400/1458 loss 0.145 (241s)
+ep 9: loss 0.145 (251s)
+saved checkpoint ep9
+--- threshold 0.5 ---
+{
+  "n_train_images": 905,
+  "n_dentex_train_images": 705,
+  "n_tufts_negative_images": 200,
+  "n_val_images": 50,
+  "n_val_gt_boxes": 182,
+  "score_threshold": 0.5,
+  "ap_per_diagnosis_iou05": {
+    "Impacted": 0.693,
+    "Caries": 0.147,
+    "Periapical Lesion": 0.0,
+    "Deep Caries": 0.052
+  },
+  "mean_ap_iou05": 0.223,
+  "quadrant_accuracy_matched": 0.923,
+  "quadrant_n_matched": 78,
+  "fdi_position_accuracy_rank_method": 0.0,
+  "fdi_position_accuracy_enum_model": 0.577,
+  "fdi_n_matched": 78,
+  "image_level_dentex_val": {
+    "tp": 42,
+    "fn": 4,
+    "fp": 3,
+    "tn": 1
+  },
+  "cross_dataset_tufts_test_image_level": {
+    "n": 151,
+    "tp": 23,
+    "fn": 28,
+    "tn": 58,
+    "fp": 42,
+    "sensitivity": 0.451,
+    "specificity": 0.58,
+    "sensitivity_by_type": {
+      "Non-Odontogenic": {
+        "detected": 6,
+        "total": 12,
+        "sens": 0.5
+      },
+      "Periapical": {
+        "detected": 16,
+        "total": 39,
+        "sens": 0.41
+      },
+      "Pericoronal": {
+        "detected": 3,
+        "total": 5,
+        "sens": 0.6
+      }
+    }
+  }
+}
+--- threshold 0.3 ---
+{
+  "n_train_images": 905,
+  "n_dentex_train_images": 705,
+  "n_tufts_negative_images": 200,
+  "n_val_images": 50,
+  "n_val_gt_boxes": 182,
+  "score_threshold": 0.3,
+  "ap_per_diagnosis_iou05": {
+    "Impacted": 0.728,
+    "Caries": 0.238,
+    "Periapical Lesion": 0.111,
+    "Deep Caries": 0.118
+  },
+  "mean_ap_iou05": 0.299,
+  "quadrant_accuracy_matched": 0.919,
+  "quadrant_n_matched": 135,
+  "fdi_position_accuracy_rank_method": 0.007,
+  "fdi_position_accuracy_enum_model": 0.533,
+  "fdi_n_matched": 135,
+  "image_level_dentex_val": {
+    "tp": 46,
+    "fn": 0,
+    "fp": 4,
+    "tn": 0
+  },
+  "cross_dataset_tufts_test_image_level": {
+    "n": 151,
+    "tp": 49,
+    "fn": 2,
+    "tn": 9,
+    "fp": 91,
+    "sensitivity": 0.961,
+    "specificity": 0.09,
+    "sensitivity_by_type": {
+      "Non-Odontogenic": {
+        "detected": 10,
+        "total": 12,
+        "sens": 0.833
+      },
+      "Periapical": {
+        "detected": 38,
+        "total": 39,
+        "sens": 0.974
+      },
+      "Pericoronal": {
+        "detected": 5,
+        "total": 5,
+        "sens": 1.0
+      }
+    }
+  }
+}
+saved detector_metrics_v2focal.json + predictions + examples

@@ -1,0 +1,322 @@
+image,kind,pred_label,gt_label,score,iou,gt_quadrant,gt_position,gt_fdi
+val_15.jpg,TP,Impacted,Impacted,0.913,0.884,3,8,38
+val_15.jpg,TP,Impacted,Impacted,0.9,0.954,4,8,48
+val_15.jpg,TP,Impacted,Impacted,0.894,0.913,1,8,18
+val_15.jpg,TP,Impacted,Impacted,0.638,0.884,2,8,28
+val_15.jpg,TP,Caries,Caries,0.563,0.906,1,6,16
+val_15.jpg,TP,Caries,Caries,0.514,0.939,3,6,36
+val_15.jpg,FN,,Caries,,,4,6,46
+val_15.jpg,FP,Caries,,0.53,,4,,
+val_15.jpg,FP,Caries,,0.528,,1,,
+val_15.jpg,FP,Caries,,0.523,,2,,
+val_38.jpg,TP,Impacted,Impacted,0.894,0.791,1,8,18
+val_38.jpg,TP,Impacted,Impacted,0.862,0.785,4,8,48
+val_38.jpg,TP,Impacted,Impacted,0.849,0.86,3,8,38
+val_38.jpg,TP,Impacted,Impacted,0.813,0.919,2,8,28
+val_38.jpg,FN,,Periapical Lesion,,,3,5,35
+val_38.jpg,FP,Caries,,0.533,,4,,
+val_38.jpg,FP,Caries,,0.519,,3,,
+val_33.jpg,TP,Caries,Caries,0.563,0.898,2,6,26
+val_33.jpg,FN,,Deep Caries,,,1,7,17
+val_33.jpg,FN,,Caries,,,1,6,16
+val_33.jpg,FN,,Caries,,,3,4,34
+val_33.jpg,FN,,Caries,,,3,6,36
+val_33.jpg,FN,,Caries,,,4,4,44
+val_33.jpg,FP,Caries,,0.534,,1,,
+val_30.jpg,FN,,Periapical Lesion,,,4,4,44
+val_30.jpg,FN,,Periapical Lesion,,,3,4,34
+val_30.jpg,FN,,Caries,,,4,3,43
+val_30.jpg,FN,,Deep Caries,,,3,3,33
+val_30.jpg,FN,,Deep Caries,,,3,2,32
+val_5.jpg,TP,Caries,Caries,0.556,0.887,2,7,27
+val_5.jpg,FN,,Caries,,,3,6,36
+val_5.jpg,FP,Deep Caries,,0.527,,3,,
+val_5.jpg,FP,Caries,,0.51,,2,,
+val_5.jpg,FP,Caries,,0.5,,2,,
+val_21.jpg,TP,Caries,Caries,0.516,0.867,3,7,37
+val_21.jpg,TP,Caries,Caries,0.502,0.885,1,7,17
+val_21.jpg,FN,,Deep Caries,,,1,8,18
+val_21.jpg,FN,,Impacted,,,3,8,38
+val_21.jpg,FN,,Caries,,,4,6,46
+val_21.jpg,FN,,Impacted,,,4,8,48
+val_21.jpg,FP,Caries,,0.556,,2,,
+val_21.jpg,FP,Caries,,0.51,,2,,
+val_21.jpg,FP,Caries,,0.508,,2,,
+val_21.jpg,FP,Caries,,0.505,,1,,
+val_39.jpg,FN,,Deep Caries,,,1,4,14
+val_39.jpg,FP,Caries,,0.549,,4,,
+val_39.jpg,FP,Caries,,0.522,,3,,
+val_39.jpg,FP,Caries,,0.515,,4,,
+val_39.jpg,FP,Caries,,0.508,,3,,
+val_39.jpg,FP,Caries,,0.504,,4,,
+val_39.jpg,FP,Caries,,0.502,,1,,
+val_46.jpg,FN,,Caries,,,3,4,34
+val_46.jpg,FN,,Caries,,,3,6,36
+val_46.jpg,FP,Caries,,0.554,,1,,
+val_20.jpg,TP,Caries,Caries,0.504,0.867,3,8,38
+val_20.jpg,FP,Caries,,0.572,,1,,
+val_20.jpg,FP,Caries,,0.567,,2,,
+val_20.jpg,FP,Caries,,0.559,,1,,
+val_20.jpg,FP,Caries,,0.547,,3,,
+val_20.jpg,FP,Caries,,0.535,,2,,
+val_3.jpg,FN,,Deep Caries,,,3,6,36
+val_3.jpg,FP,Caries,,0.577,,3,,
+val_3.jpg,FP,Caries,,0.564,,3,,
+val_3.jpg,FP,Caries,,0.549,,4,,
+val_29.jpg,FP,Deep Caries,,0.512,,1,,
+val_29.jpg,FP,Caries,,0.502,,3,,
+val_2.jpg,TP,Impacted,Impacted,0.735,0.719,4,8,48
+val_2.jpg,TP,Caries,Caries,0.583,0.911,1,6,16
+val_2.jpg,TP,Caries,Caries,0.544,0.838,2,6,26
+val_2.jpg,TP,Caries,Caries,0.518,0.74,3,6,36
+val_2.jpg,TP,Caries,Caries,0.516,0.882,4,6,46
+val_2.jpg,FN,,Caries,,,2,8,28
+val_2.jpg,FN,,Caries,,,3,7,37
+val_2.jpg,FN,,Caries,,,4,7,47
+val_2.jpg,FP,Caries,,0.54,,2,,
+val_2.jpg,FP,Caries,,0.502,,1,,
+val_16.jpg,FN,,Deep Caries,,,3,8,38
+val_16.jpg,FN,,Deep Caries,,,3,7,37
+val_16.jpg,FN,,Caries,,,3,6,36
+val_16.jpg,FN,,Deep Caries,,,1,5,15
+val_16.jpg,FN,,Deep Caries,,,4,8,48
+val_16.jpg,FN,,Caries,,,4,7,47
+val_16.jpg,FP,Caries,,0.565,,1,,
+val_16.jpg,FP,Caries,,0.529,,2,,
+val_16.jpg,FP,Caries,,0.523,,4,,
+val_25.jpg,FN,,Caries,,,4,7,47
+val_25.jpg,FN,,Caries,,,3,4,34
+val_25.jpg,FP,Caries,,0.564,,3,,
+val_25.jpg,FP,Caries,,0.554,,3,,
+val_24.jpg,TP,Caries,Caries,0.541,0.92,1,6,16
+val_24.jpg,TP,Caries,Caries,0.502,0.881,1,7,17
+val_24.jpg,FP,Caries,,0.542,,3,,
+val_24.jpg,FP,Caries,,0.522,,3,,
+val_24.jpg,FP,Caries,,0.502,,4,,
+val_31.jpg,TP,Impacted,Impacted,0.88,0.842,2,8,28
+val_31.jpg,TP,Impacted,Impacted,0.854,0.922,1,8,18
+val_31.jpg,TP,Impacted,Impacted,0.755,0.879,3,8,38
+val_31.jpg,TP,Impacted,Impacted,0.739,0.89,4,8,48
+val_31.jpg,TP,Caries,Caries,0.593,0.876,1,6,16
+val_31.jpg,TP,Caries,Caries,0.557,0.852,2,6,26
+val_31.jpg,TP,Caries,Caries,0.513,0.883,3,6,36
+val_31.jpg,FN,,Caries,,,4,7,47
+val_31.jpg,FN,,Caries,,,4,6,46
+val_26.jpg,FP,Caries,,0.535,,2,,
+val_44.jpg,TP,Caries,Caries,0.561,0.914,1,6,16
+val_44.jpg,TP,Caries,Caries,0.534,0.862,4,7,47
+val_44.jpg,TP,Caries,Caries,0.508,0.827,3,7,37
+val_44.jpg,FN,,Caries,,,2,2,22
+val_44.jpg,FP,Caries,,0.572,,1,,
+val_44.jpg,FP,Deep Caries,,0.57,,1,,
+val_44.jpg,FP,Caries,,0.56,,2,,
+val_44.jpg,FP,Caries,,0.542,,1,,
+val_44.jpg,FP,Caries,,0.535,,2,,
+val_44.jpg,FP,Caries,,0.51,,3,,
+val_44.jpg,FP,Caries,,0.507,,4,,
+val_27.jpg,TP,Impacted,Impacted,0.839,0.938,3,8,38
+val_27.jpg,TP,Impacted,Impacted,0.83,0.727,2,8,28
+val_27.jpg,TP,Impacted,Impacted,0.828,0.919,4,8,48
+val_27.jpg,TP,Impacted,Impacted,0.786,0.848,1,8,18
+val_27.jpg,TP,Caries,Caries,0.557,0.968,2,6,26
+val_27.jpg,TP,Caries,Caries,0.505,0.854,1,7,17
+val_27.jpg,FN,,Caries,,,3,7,37
+val_27.jpg,FN,,Caries,,,4,4,44
+val_27.jpg,FP,Caries,,0.566,,4,,
+val_27.jpg,FP,Caries,,0.519,,4,,
+val_27.jpg,FP,Caries,,0.515,,3,,
+val_27.jpg,FP,Caries,,0.506,,3,,
+val_41.jpg,TP,Caries,Caries,0.591,0.939,3,7,37
+val_41.jpg,TP,Impacted,Impacted,0.546,0.955,4,8,48
+val_41.jpg,FN,,Deep Caries,,,4,6,46
+val_41.jpg,FN,,Deep Caries,,,3,8,38
+val_41.jpg,FN,,Impacted,,,2,8,28
+val_41.jpg,FN,,Caries,,,3,5,35
+val_41.jpg,FP,Caries,,0.574,,3,,
+val_41.jpg,FP,Caries,,0.564,,4,,
+val_41.jpg,FP,Caries,,0.524,,2,,
+val_41.jpg,FP,Caries,,0.514,,4,,
+val_37.jpg,TP,Impacted,Impacted,0.824,0.881,3,8,38
+val_37.jpg,FN,,Deep Caries,,,2,5,25
+val_37.jpg,FP,Caries,,0.513,,3,,
+val_40.jpg,FN,,Caries,,,1,2,12
+val_40.jpg,FN,,Caries,,,1,3,13
+val_40.jpg,FP,Caries,,0.547,,1,,
+val_40.jpg,FP,Caries,,0.546,,1,,
+val_40.jpg,FP,Caries,,0.506,,2,,
+val_6.jpg,TP,Impacted,Impacted,0.831,0.872,2,8,28
+val_6.jpg,TP,Impacted,Impacted,0.793,0.832,3,8,38
+val_6.jpg,TP,Impacted,Impacted,0.594,0.951,4,8,48
+val_6.jpg,TP,Caries,Caries,0.514,0.934,3,7,37
+val_18.jpg,TP,Caries,Caries,0.538,0.909,4,6,46
+val_18.jpg,FN,,Deep Caries,,,2,8,28
+val_18.jpg,FN,,Periapical Lesion,,,4,6,46
+val_18.jpg,FP,Caries,,0.537,,2,,
+val_18.jpg,FP,Caries,,0.536,,1,,
+val_18.jpg,FP,Caries,,0.522,,2,,
+val_18.jpg,FP,Caries,,0.516,,1,,
+val_13.jpg,FN,,Deep Caries,,,2,6,26
+val_13.jpg,FN,,Deep Caries,,,4,6,46
+val_13.jpg,FP,Impacted,,0.878,,1,,
+val_13.jpg,FP,Impacted,,0.842,,2,,
+val_13.jpg,FP,Impacted,,0.806,,4,,
+val_13.jpg,FP,Impacted,,0.795,,3,,
+val_13.jpg,FP,Caries,,0.519,,2,,
+val_13.jpg,FP,Caries,,0.515,,1,,
+val_8.jpg,FN,,Caries,,,1,6,16
+val_8.jpg,FN,,Caries,,,2,8,28
+val_8.jpg,FN,,Caries,,,3,6,36
+val_8.jpg,FN,,Caries,,,3,7,37
+val_49.jpg,TP,Caries,Caries,0.527,0.944,1,6,16
+val_49.jpg,FN,,Caries,,,1,5,15
+val_49.jpg,FN,,Caries,,,2,5,25
+val_49.jpg,FP,Impacted,,0.725,,4,,
+val_49.jpg,FP,Caries,,0.536,,3,,
+val_1.jpg,TP,Impacted,Impacted,0.874,0.794,3,8,38
+val_1.jpg,TP,Impacted,Impacted,0.788,0.748,2,8,28
+val_1.jpg,TP,Impacted,Impacted,0.752,0.87,4,8,48
+val_1.jpg,TP,Impacted,Impacted,0.717,0.896,1,8,18
+val_1.jpg,TP,Caries,Caries,0.602,0.872,1,6,16
+val_1.jpg,TP,Caries,Caries,0.538,0.833,4,7,47
+val_1.jpg,TP,Caries,Caries,0.519,0.812,3,6,36
+val_1.jpg,FP,Caries,,0.534,,4,,
+val_1.jpg,FP,Caries,,0.512,,1,,
+val_1.jpg,FP,Caries,,0.505,,2,,
+val_43.jpg,TP,Caries,Caries,0.57,0.823,1,7,17
+val_43.jpg,TP,Caries,Caries,0.564,0.973,1,6,16
+val_43.jpg,FN,,Caries,,,1,4,14
+val_43.jpg,FN,,Deep Caries,,,1,8,18
+val_43.jpg,FP,Caries,,0.562,,3,,
+val_43.jpg,FP,Caries,,0.555,,4,,
+val_43.jpg,FP,Caries,,0.553,,2,,
+val_43.jpg,FP,Caries,,0.536,,4,,
+val_43.jpg,FP,Caries,,0.519,,4,,
+val_28.jpg,TP,Impacted,Impacted,0.859,0.827,4,8,48
+val_28.jpg,TP,Impacted,Impacted,0.83,0.801,3,8,38
+val_28.jpg,TP,Impacted,Impacted,0.823,0.688,1,8,18
+val_28.jpg,TP,Impacted,Impacted,0.819,0.683,2,8,28
+val_28.jpg,TP,Deep Caries,Deep Caries,0.563,0.915,3,6,36
+val_28.jpg,TP,Caries,Caries,0.554,0.928,2,6,26
+val_28.jpg,FN,,Periapical Lesion,,,3,6,36
+val_28.jpg,FN,,Caries,,,1,6,16
+val_28.jpg,FN,,Caries,,,1,5,15
+val_28.jpg,FN,,Caries,,,1,1,11
+val_28.jpg,FN,,Periapical Lesion,,,4,6,46
+val_19.jpg,FN,,Deep Caries,,,3,7,37
+val_19.jpg,FN,,Periapical Lesion,,,3,8,38
+val_14.jpg,TP,Impacted,Impacted,0.72,0.854,3,8,38
+val_14.jpg,TP,Caries,Caries,0.515,0.866,2,5,25
+val_14.jpg,TP,Caries,Caries,0.501,0.861,3,6,36
+val_14.jpg,FN,,Deep Caries,,,3,7,37
+val_14.jpg,FN,,Periapical Lesion,,,3,7,37
+val_14.jpg,FP,Caries,,0.574,,2,,
+val_14.jpg,FP,Caries,,0.54,,1,,
+val_14.jpg,FP,Caries,,0.539,,1,,
+val_32.jpg,TP,Deep Caries,Deep Caries,0.613,0.896,1,5,15
+val_32.jpg,TP,Caries,Caries,0.572,0.925,2,7,27
+val_32.jpg,FN,,Caries,,,4,7,47
+val_32.jpg,FN,,Deep Caries,,,2,6,26
+val_32.jpg,FP,Caries,,0.566,,3,,
+val_32.jpg,FP,Caries,,0.546,,2,,
+val_32.jpg,FP,Caries,,0.54,,1,,
+val_32.jpg,FP,Caries,,0.538,,1,,
+val_32.jpg,FP,Caries,,0.52,,1,,
+val_36.jpg,TP,Caries,Caries,0.552,0.883,1,6,16
+val_36.jpg,FN,,Caries,,,3,6,36
+val_36.jpg,FN,,Caries,,,3,7,37
+val_36.jpg,FN,,Caries,,,3,8,38
+val_36.jpg,FN,,Caries,,,4,8,48
+val_36.jpg,FP,Caries,,0.533,,4,,
+val_36.jpg,FP,Caries,,0.527,,2,,
+val_47.jpg,FN,,Caries,,,2,8,28
+val_47.jpg,FN,,Caries,,,4,6,46
+val_47.jpg,FP,Caries,,0.555,,4,,
+val_47.jpg,FP,Caries,,0.541,,4,,
+val_48.jpg,FN,,Caries,,,3,5,35
+val_48.jpg,FP,Caries,,0.501,,4,,
+val_17.jpg,FP,Caries,,0.516,,2,,
+val_42.jpg,TP,Caries,Caries,0.537,0.72,2,6,26
+val_42.jpg,FN,,Caries,,,1,7,17
+val_42.jpg,FP,Caries,,0.55,,3,,
+val_42.jpg,FP,Caries,,0.531,,4,,
+val_42.jpg,FP,Caries,,0.52,,4,,
+val_42.jpg,FP,Caries,,0.519,,2,,
+val_42.jpg,FP,Caries,,0.515,,3,,
+val_42.jpg,FP,Caries,,0.502,,3,,
+val_42.jpg,FP,Caries,,0.5,,4,,
+val_45.jpg,TP,Caries,Caries,0.548,0.898,3,7,37
+val_45.jpg,TP,Caries,Caries,0.539,0.955,4,6,46
+val_45.jpg,TP,Caries,Caries,0.539,0.811,4,5,45
+val_45.jpg,FN,,Deep Caries,,,1,4,14
+val_45.jpg,FP,Caries,,0.597,,4,,
+val_45.jpg,FP,Caries,,0.56,,1,,
+val_45.jpg,FP,Caries,,0.555,,2,,
+val_45.jpg,FP,Caries,,0.529,,2,,
+val_45.jpg,FP,Caries,,0.51,,3,,
+val_45.jpg,FP,Caries,,0.506,,1,,
+val_9.jpg,FN,,Impacted,,,4,8,48
+val_9.jpg,FN,,Impacted,,,3,8,38
+val_9.jpg,FP,Caries,,0.537,,1,,
+val_9.jpg,FP,Caries,,0.519,,2,,
+val_9.jpg,FP,Caries,,0.513,,1,,
+val_9.jpg,FP,Caries,,0.506,,3,,
+val_9.jpg,FP,Caries,,0.5,,2,,
+val_4.jpg,FN,,Caries,,,1,1,11
+val_4.jpg,FN,,Caries,,,1,2,12
+val_4.jpg,FN,,Caries,,,2,1,21
+val_4.jpg,FN,,Caries,,,2,2,22
+val_4.jpg,FP,Impacted,,0.863,,1,,
+val_4.jpg,FP,Impacted,,0.836,,2,,
+val_4.jpg,FP,Impacted,,0.821,,4,,
+val_4.jpg,FP,Impacted,,0.765,,3,,
+val_4.jpg,FP,Caries,,0.53,,1,,
+val_4.jpg,FP,Caries,,0.504,,2,,
+val_34.jpg,TP,Caries,Caries,0.513,0.785,1,7,17
+val_34.jpg,FN,,Periapical Lesion,,,3,5,35
+val_34.jpg,FP,Caries,,0.549,,2,,
+val_34.jpg,FP,Caries,,0.549,,1,,
+val_34.jpg,FP,Deep Caries,,0.543,,3,,
+val_34.jpg,FP,Caries,,0.542,,3,,
+val_10.jpg,TP,Caries,Caries,0.518,0.892,3,6,36
+val_10.jpg,FN,,Caries,,,4,5,45
+val_10.jpg,FN,,Caries,,,3,5,35
+val_10.jpg,FN,,Deep Caries,,,1,6,16
+val_10.jpg,FN,,Deep Caries,,,2,4,24
+val_10.jpg,FN,,Caries,,,3,8,38
+val_10.jpg,FN,,Deep Caries,,,1,8,18
+val_10.jpg,FP,Caries,,0.567,,2,,
+val_10.jpg,FP,Caries,,0.532,,1,,
+val_10.jpg,FP,Caries,,0.521,,4,,
+val_10.jpg,FP,Caries,,0.519,,2,,
+val_10.jpg,FP,Caries,,0.501,,4,,
+val_10.jpg,FP,Caries,,0.5,,3,,
+val_35.jpg,FN,,Caries,,,4,7,47
+val_35.jpg,FN,,Caries,,,4,6,46
+val_35.jpg,FN,,Caries,,,3,8,38
+val_11.jpg,FN,,Deep Caries,,,2,1,21
+val_11.jpg,FN,,Deep Caries,,,1,1,11
+val_11.jpg,FN,,Deep Caries,,,1,2,12
+val_11.jpg,FP,Caries,,0.52,,4,,
+val_12.jpg,TP,Impacted,Impacted,0.785,0.839,2,8,28
+val_12.jpg,TP,Caries,Caries,0.514,0.886,1,7,17
+val_12.jpg,FN,,Caries,,,1,8,18
+val_12.jpg,FP,Caries,,0.53,,2,,
+val_7.jpg,TP,Impacted,Impacted,0.789,0.825,3,8,38
+val_7.jpg,TP,Impacted,Impacted,0.768,0.855,4,8,48
+val_7.jpg,FN,,Caries,,,4,6,46
+val_7.jpg,FP,Caries,,0.517,,2,,
+val_22.jpg,FN,,Caries,,,1,5,15
+val_22.jpg,FN,,Caries,,,1,6,16
+val_22.jpg,FN,,Caries,,,1,7,17
+val_22.jpg,FN,,Caries,,,2,7,27
+val_22.jpg,FP,Caries,,0.553,,4,,
+val_22.jpg,FP,Caries,,0.546,,1,,
+val_22.jpg,FP,Caries,,0.538,,3,,
+val_22.jpg,FP,Caries,,0.51,,3,,
+val_0.jpg,FN,,Deep Caries,,,4,7,47
+val_0.jpg,FN,,Deep Caries,,,3,7,37
+val_0.jpg,FN,,Impacted,,,1,8,18
+val_0.jpg,FP,Caries,,0.57,,2,,
+val_0.jpg,FP,Caries,,0.534,,1,,
+val_0.jpg,FP,Caries,,0.524,,3,,
+val_0.jpg,FP,Caries,,0.521,,2,,

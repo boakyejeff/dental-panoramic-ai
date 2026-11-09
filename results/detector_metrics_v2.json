@@ -1,0 +1,52 @@
+{
+  "ap_per_diagnosis_iou05": {
+    "Caries": 0.294,
+    "Deep Caries": 0.282,
+    "Impacted": 0.795,
+    "Periapical Lesion": 0.127
+  },
+  "cross_dataset_tufts_test_image_level": {
+    "fn": 21,
+    "fp": 49,
+    "n": 151,
+    "sensitivity": 0.588,
+    "sensitivity_by_type": {
+      "Non-Odontogenic": {
+        "detected": 6,
+        "sens": 0.5,
+        "total": 12
+      },
+      "Periapical": {
+        "detected": 23,
+        "sens": 0.59,
+        "total": 39
+      },
+      "Pericoronal": {
+        "detected": 3,
+        "sens": 0.6,
+        "total": 5
+      }
+    },
+    "specificity": 0.51,
+    "tn": 51,
+    "tp": 30
+  },
+  "fdi_n_matched": 127,
+  "fdi_position_accuracy_enum_model": 0.583,
+  "fdi_position_accuracy_rank_method": 0.0,
+  "image_level_dentex_val": {
+    "fn": 0,
+    "fp": 4,
+    "tn": 0,
+    "tp": 46
+  },
+  "mean_ap_iou05": 0.374,
+  "n_dentex_train_images": 705,
+  "n_train_images": 905,
+  "n_tufts_negative_images": 200,
+  "n_val_gt_boxes": 182,
+  "n_val_images": 50,
+  "quadrant_accuracy_matched": 0.937,
+  "quadrant_n_matched": 127,
+  "score_threshold": 0.5
+}

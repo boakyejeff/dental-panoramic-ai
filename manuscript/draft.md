@@ -1,483 +1,424 @@
-# Cross-site generalisation of panoramic dental AI: hierarchical abnormal-tooth detection trained on Tufts and tested on DENTEX, and vice versa
+# Cross-site generalisation of panoramic dental AI: hierarchical abnormal-tooth detection across Tufts and DENTEX
 
 **Target journal:** *Clinical Oral Investigations* (Springer, hybrid, IF ~3.6, Q1 Dentistry)
-**Status:** DRAFT — detector (705-image run) and classifier v2 (mixed-site) results both in (2026-11-07). NOT submitted. Before submission: verify "Library Supported" for this title in Mizzou Open Journal Finder and confirm remaining GWLA quota (Springer deal is hybrid-only; BMC fully-OA titles are excluded).
+**Status:** DRAFT, detector v2 improvement run (Tufts negatives, focal loss) and classifier three-seed GPU replication both in (2026-11-08). NOT submitted. Before submission: verify "Library Supported" for this title in Mizzou Open Journal Finder and confirm remaining GWLA quota (Springer deal is hybrid-only; BMC fully-OA titles are excluded).
 
-**Authors:** Jeffrey Appiagyei (corresponding author, University of Missouri–Columbia, Data Science & Informatics) — sole author in this draft; co-authors to be added only if they contribute.
+**Authors:** Jeffrey Appiagyei (corresponding author, University of Missouri–Columbia, Data Science & Informatics), sole author in this draft; co-authors to be added only if they contribute.
 
 ---
 
 ## Abstract
 
-**Objectives.** Panoramic dental AI is usually trained and tested on scans
-from a single institution, so published accuracy rarely survives a change
-of scanner, site, or country. We asked whether abnormality detection
-trained on panoramic X-rays from one institution generalises to another,
-and where exactly it fails.
+**Objectives.** Panoramic dental AI is trained and tested on one institution's scans, so published accuracy rarely survives a change of scanner or site. We tested cross-site generalisation and its failures.
 
-**Materials and methods.** We combined two public panoramic datasets with
-different label taxonomies: the Tufts Dental Database (1,000 panoramics,
-USA, 2014–2016; expert abnormality polygons and free-text descriptions)
-and DENTEX (MICCAI 2023; three hospitals in Türkiye; FDI
-quadrant→tooth→diagnosis boxes for caries, deep caries, periapical
-lesion, and impacted teeth). Because the taxonomies do not match,
-cross-site comparison was harmonised at image level (abnormal vs normal)
-and abnormality-region level. A ResNet18 classifier (ImageNet-pretrained)
-was trained on Tufts (699/150/151 train/val/test) and tested on DENTEX
-validation (n=50). A Faster R-CNN detector (COCO-pretrained,
-MobileNetV3-FPN backbone, frozen) was trained on the full DENTEX
-training split (705 images, 3,529 boxes; 3 epochs) and evaluated on the
-held-out DENTEX validation set (n=50) and the Tufts test split (n=151),
-with a 40-image pilot reported for comparison. We report AUC,
-sensitivity, specificity, calibration (ECE), per-diagnosis AP at
-IoU 0.5, quadrant accuracy, and FDI tooth-position accuracy by two
-methods (midline-rank and an enumeration-median model), plus a failure
-taxonomy by abnormality type and tooth position.
+**Materials and methods.** We combined the Tufts Dental Database (1,000 panoramics, USA) and DENTEX (MICCAI 2023; hospitals in Türkiye), harmonising their mismatched taxonomies. A ResNet18 classifier trained on Tufts was tested on DENTEX validation, then retrained mixed-site. A Faster R-CNN detector trained on DENTEX (705 images) was evaluated on DENTEX validation and the Tufts test split (n=151), then retrained on GPU with 200 Tufts normals added and a focal-loss variant; the classifier was replicated across three seeds.
 
-**Results.** The ResNet18 abnormality classifier trained on Tufts only
-reached AUC 0.65 on the Tufts test split (n=151; sensitivity 0.71,
-specificity 0.43) but failed cross-site: on DENTEX validation (n=50)
-its AUC was 0.28, below chance, with sensitivity 0.48 at the 0.5
-threshold, i.e. it missed half of the abnormal DENTEX cases.
-Calibration was poor (ECE 0.27-0.39). Mixed-site retraining (Tufts
-699 + 102 DENTEX training images) fixed the cross-site inversion —
-DENTEX validation AUC 0.28 → 0.84 (sensitivity 0.93 at 0.5) — and
-halved Tufts-test ECE (0.27 → 0.13), but Tufts test AUC fell slightly
-(0.65 → 0.60) and the operating point became unstable across epochs
-and sites. The
-Faster R-CNN detector trained on all 705 DENTEX images reached
-mAP@IoU 0.5 of 0.27 on DENTEX validation (n=50, 182 boxes) at score
-≥ 0.5 (0.33 at ≥ 0.3), up from 0.13 for the 40-image pilot: Impacted
-0.68, Caries 0.12, Periapical Lesion 0.29, Deep Caries 0.00 at ≥ 0.5.
-Quadrant accuracy was 0.94. FDI position by midline-rank remained 0.00,
-but an enumeration-median model (tooth-position medians learned from
-the 634-image quadrant-enumeration subset) reached 0.53 (0.56 at ≥ 0.3).
-Cross-site on Tufts, the detector's sensitivity/specificity were
-0.59/0.36 at ≥ 0.5 and 0.92/0.15 at ≥ 0.3 (pilot: 0.75/0.16) — the
-operating point, not the model alone, decides the trade-off. The
-failure taxonomy shows deep caries is never predicted (0/32 boxes
-detected) and anterior teeth are never detected (0/14), while impacted
-teeth are found reliably (34/40).
+**Results.** The Tufts-only classifier reached AUC 0.65 on Tufts test but 0.28 on DENTEX. Mixed-site retraining raised DENTEX AUC to 0.84 on the CPU; a three-seed GPU replication reached only 0.53 (DENTEX) and 0.57 (Tufts test). The detector reached mAP@IoU 0.5 of 0.374 after adding the Tufts negatives, (cross-site specificity 0.51 at sensitivity 0.59); focal loss made it worse (0.223). Quadrant accuracy was 0.94, FDI by enumeration-median 0.58.
 
-**Conclusions.** Cross-site generalisation fails in two different ways:
-the global classifier's ranking inverts when trained on one site
-(AUC 0.28) — and mixed-site training fixes the ranking (AUC 0.84)
-while destabilising the operating point — and the detector's
-sensitivity/specificity trade-off is set by its score threshold, with
-specificity collapsing at the sensitive operating point. Quadrant
-localisation is reliable (0.94); FDI numbering from abnormal boxes
-alone is not (0.00), but an enumeration-median model recovers about
-half of tooth positions (0.53–0.56). Training on 705 instead of 40
-images doubled mAP and lifted periapical detection from 0 to 0.29, but
-deep caries and anterior teeth remain undetected — the remaining
-failures are data and resolution problems, not training-set size alone.
+**Conclusions.** Cross-site generalisation fails two ways: classifier ranking inverts and does not replicate, and detector specificity collapses at sensitive thresholds unless the target site's normals are in training. Quadrant localisation is reliable; FDI numbering from abnormal boxes alone is not.
 
-**Keywords:** panoramic radiography; dental AI; cross-site generalisation;
-FDI numbering; failure analysis; DENTEX; Tufts Dental Database.
+**Clinical relevance.** A model that works only on its home institution's scans cannot be deployed; clinics should ask for cross-site performance and a failure taxonomy, not one in-distribution score.
 
-**Clinical relevance.** A model that only works on its home institution's
-scans is not deployable. Reporting cross-site performance and a failure
-taxonomy — rather than a single in-distribution score — is the minimum
-evidence a clinic should ask for before adopting panoramic AI.
+**Keywords:** panoramic radiography; dental AI; cross-site generalisation; FDI numbering; DENTEX; Tufts Dental Database.
 
----
 
 ## Introduction
 
-- Panoramic radiographs are the workhorse of dental diagnosis; AI
-  assistance is widely proposed, and benchmarks (DENTEX, Tufts) exist.
-- Gap 1: most papers report in-distribution performance only. Scanner,
-  protocol, and population shift are rarely tested.
-- Gap 2: evaluation is usually a single score (mAP / accuracy). Clinicians
-  need to know *which* teeth and *which* diseases are missed.
-- Gap 3: FDI enumeration is treated as a flat classification problem,
-  although it is hierarchical (quadrant → tooth → diagnosis); errors at
-  each level have different clinical consequences.
-- This study: (i) harmonises two public datasets with mismatched
-  taxonomies; (ii) tests cross-site generalisation in both directions;
-  (iii) evaluates the hierarchy level by level; (iv) publishes a failure
-  taxonomy and calibration, in the spirit of AI-evaluation work on
-  confidently-wrong models.
+Panoramic radiographs are the workhorse of dental diagnosis, AI assistance is widely proposed [1], and benchmarks exist [2,3], yet three gaps remain. First, most papers report in-distribution performance only: scanner, protocol, and population shift are rarely tested [4]. Second, evaluation is usually a single score, while clinicians need to know which teeth and diseases are missed [5]. Third, FDI enumeration is treated as flat classification, although it is hierarchical (quadrant to tooth to diagnosis) [6,7], and errors at each level have different clinical consequences. This study harmonises two public datasets with mismatched taxonomies, tests cross-site generalisation, evaluates the hierarchy level by level, and publishes a failure taxonomy and calibration [5,8]. The contribution is the evaluation design, not a new architecture.
+
+## Related work
+
+The DENTEX benchmark [3] established hierarchical detection on panoramic radiographs, its HierarchicalDet baseline reporting diagnosis AP50 0.60 on the held-out test split [7], and the Tufts Dental Database [2] provides expert-annotated abnormality polygons. Both report in-distribution numbers. Cross-site failure is well documented: a pneumonia model trained at one hospital lost accuracy at another [4], and aggregate scores can hide failures in clinically important subgroups [5].
 
 ## Materials and methods
 
 ### Datasets and ethics
-- Tufts Dental Database: 1,000 panoramic radiographs, Tufts University
+- Tufts Dental Database [2]: 1,000 panoramic radiographs, Tufts University
   School of Dental Medicine, 2014–2016, OP100 / Planmeca ProMax 2D,
-  IRB ID MODCR-01-12631. De-identified public-use data; no additional
-  IRB approval required for this secondary analysis. Free,
-  non-commercial licence. All images 1615×840 px.
-- DENTEX: MICCAI 2023 challenge data, three hospitals in Türkiye,
-  VistaPano S, patients aged ≥12, ethics approval obtained by the
-  challenge organisers. Fully-labelled subset 705/50/250 train/val/test;
-  the training archive (10.9 GB, Zenodo 7812323, md5-verified
-  eba0c44fa4c6e8ec221db3009eccc1f9) was extracted and used in full:
+  IRB ID MODCR-01-12631. De-identified public-use data; no further IRB approval required; free, non-commercial licence. All images 1615×840 px.
+- DENTEX [3,7]: MICCAI 2023 challenge data, three hospitals in Türkiye,
+  VistaPano S, patients aged ≥12, ethics approval by the challenge
+  organisers. Fully-labelled subset 705/50/250 train/val/test;
+  the training archive (10.9 GB, Zenodo 7812323 [9], md5-verified) was extracted and used in full:
   705 training images, 3,529 boxes (caries 2,189, impacted 604, deep
   caries 578, periapical lesion 158; 678/705 images have ≥1 box, 27
-  are normal). The 50-image validation set (182 boxes) is the held-out
-  evaluation set and was never trained on. The 634-image
-  quadrant-enumeration subset (18,095 tooth boxes, all teeth, not just
-  abnormal ones) was used only to learn tooth-position medians for FDI
-  inference (see below). Licence: CC BY-NC-SA 4.0 per the GitHub README
-  (the HierarchicalDet repository states CC BY-SA; we adopt the
-  stricter non-commercial reading). Images ~2,900×1,400 px.
+  are normal). The 50-image validation set (182 boxes) was never
+  trained on. The 634-image quadrant-enumeration subset (18,095 tooth boxes) was used only to learn tooth-position medians for FDI inference. Licence: CC BY-NC-SA 4.0
+  per the dataset's GitHub README (the HierarchicalDet repository
+  states CC BY-SA; we adopt the stricter reading) [9]. Images
+  ~2,900×1,400 px.
 - Full source, size, and licence audit: `DATA.md` in the project repo.
 
 ### Harmonisation (the key methods decision)
 - Tufts labels: expert polygons (abnormality regions) + free-text
-  descriptions; abnormality classes Periapical (217), Non-Odontogenic
+  descriptions; classes Periapical (217), Non-Odontogenic
   (105), Pericoronal (48), Inter-Radicular (4); no FDI numbers, no
   DENTEX-style diagnosis. 663 normal / 337 abnormal images.
-- DENTEX labels: bounding boxes with quadrant (1–4), tooth position in
-  quadrant (1–8), diagnosis (caries 101, impacted 40, deep caries 32,
-  periapical lesion 9 in the validation sample). FDI = quadrant×10 +
-  position, verified geometrically against box x-position (panoramic
-  images are viewed as if facing the patient, so image-left is
-  patient-right).
+- DENTEX labels: bounding boxes with quadrant (1–4), tooth position (1–8), diagnosis (caries 101, impacted 40, deep caries 32,
+  periapical lesion 9 in validation). FDI [6] = quadrant×10 + position, verified against box x-position (image-left is patient-right).
 - Common ground: (a) image-level abnormal vs normal; (b) abnormality-
-  region boxes. Per-diagnosis comparison across datasets is NOT possible
-  and is not attempted.
+  region boxes. Per-diagnosis comparison across datasets is not possible and is not attempted.
 
 ### Models
-- Classifier: ResNet18, ImageNet-pretrained, single-logit head,
-  BCEWithLogitsLoss with positive-class weight 663/337, Adam (lr 1e-3,
+- Classifier: ResNet18 [10], ImageNet-pretrained [11], single-logit head,
+  BCEWithLogitsLoss with positive-class weight 663/337, Adam [12] (lr 1e-3,
   wd 1e-4), cosine schedule, 4 epochs, batch 16, input 512×256,
-  augmentation: horizontal flip, ±5° rotation, brightness/contrast
-  jitter. Stratified Tufts split 699/150/151 (seed 42). CPU-only.
-  v2 (mixed-site): identical architecture and recipe, training set
-  Tufts 699 + a balanced DENTEX-training sample (75 abnormal + all 27
-  normal = 102 images; DENTEX training has only 27 normal images in
-  705). Best checkpoint by Tufts val AUC (epoch 2). Temperature
-  scaling fitted on Tufts val (T=1.75) and decision threshold tuned
-  on Tufts val by Youden J (0.45). DENTEX val and Tufts test were
-  untouched by training in both versions.
-- Detector: Faster R-CNN with MobileNetV3-FPN, COCO-pretrained, frozen
+  augmentation: flip, ±5° rotation, brightness/contrast jitter.
+  Stratified Tufts split 699/150/151 (seed 42), CPU-only.
+  v2 (mixed-site): identical recipe, training set Tufts 699 + a
+  balanced DENTEX-training sample (75 abnormal + all 27 normal = 102 images); best checkpoint by Tufts val AUC (epoch 2).
+  Temperature scaling [8] fitted on Tufts val (T=1.75), decision threshold tuned on Tufts val by Youden J [13] (0.45). DENTEX val
+  and Tufts test were untouched by training in both versions.
+- Detector: Faster R-CNN [14] with MobileNetV3-FPN [15,16], COCO-pretrained [17], frozen
   backbone (RPN + ROI heads train), 5-class head (background + 4
   diagnoses), SGD lr 5e-3, momentum 0.9, 3 epochs, batch 1, input
   768×384. The backbone/resolution choice was benchmarked on our
-  CPU-only box: ResNet50-FPN at 1024×512 needed 32.5 s/image (≈6.4
-  h/epoch for 705 images) and was infeasible; MobileNetV3-FPN at
-  768×384 needed 3.6 s/image (≈42 min/epoch). Augmentation per sample:
-  horizontal flip (p=0.5, with quadrant swap 1↔2, 3↔4) and
-  brightness/contrast jitter; no vertical flip. Rare-class handling:
-  images containing periapical lesions get 2 extra copies per epoch,
-  deep caries 1 extra copy (+553 copies/epoch). Training loss fell
-  0.80 → 0.67 → 0.53 across epochs. Pilot (for comparison): Faster
-  R-CNN ResNet50-FPN, 1024×512, DENTEX val 40 train / 10 test, 4 epochs.
-  The box rebooted mid-epoch-2; training resumed from the epoch-1
-  checkpoint at lr 5e-4 (the scheduled post-epoch-1 rate) — see
-  Limitations.
+  CPU-only box: ResNet50-FPN at 1024×512 needed ≈6.4 h/epoch and was
+  infeasible; MobileNetV3-FPN at 768×384 needed ≈42 min/epoch.
+  Augmentation: horizontal flip (p=0.5, with quadrant swap 1↔2, 3↔4)
+  and brightness/contrast jitter; no vertical flip. Rare-class
+  handling: images with periapical lesions get 2 extra copies per
+  epoch, deep caries 1 extra copy (+553 copies/epoch). Training loss
+  fell 0.80 → 0.67 → 0.53. Pilot (for comparison): Faster R-CNN
+  ResNet50-FPN, 1024×512, DENTEX val 40 train / 10 test, 4 epochs.
+- Detector, GPU rerun: Faster R-CNN with ResNet50-FPN, COCO-pretrained,
+  backbone unfrozen, 5-class head, SGD lr 5e-3, momentum 0.9, 5 epochs,
+  batch 1, input 1024×512, same augmentation and rare-class duplication
+  (+553 copies/epoch), run on a free Tesla T4 in Google Colab (1,258 steps/epoch, 19 min total; per-epoch loss 0.599 to 0.307). Classifier, GPU rerun: same mixed-site recipe, 4 epochs on the GPU (best epoch 1, Tufts val AUC 0.579; T=1.75, threshold 0.35 fitted on Tufts val).
+  The DENTEX validation triple has no downloadable source (the Zenodo record [9] provides ground truth only for the training split, and its validation-triple URL returns 404), so it was rebuilt from this project's own committed harmonised outputs and verified to reproduce the same 50 images / 182 boxes.
+- Detector, improvement run v2 (2026-11-08, free Tesla T4): same
+  ResNet50-FPN recipe, 10 epochs, 1,458 steps/epoch, training set
+  705 DENTEX + 200 Tufts train-split normals as box-free negatives
+  (seed 42, excluding the 301 validation/test stems), same
+  learning-rate schedule and rare-class duplication; per-epoch loss
+  0.542 to 0.284. Variant run B used focal loss (gamma 2.0, alpha
+  0.25) on the ROI classification head only (loss 0.268 to 0.145, a
+  different scale). Classifier, three-seed GPU replication: same
+  mixed-site recipe, seeds 42, 0 and 1, 4 epochs each; the seed
+  controls the Tufts split, the DENTEX-training sample, the
+  initialisation and the data order, so per-seed AUCs are on
+  different test sets and the mean and SD across seeds are the
+  recipe's uncertainty.
 - Hierarchical inference: quadrant from box centre vs image midlines;
-  FDI position by two methods: (a) midline-rank — ordering boxes within
+  FDI position by two methods: (a) midline-rank, ordering boxes within
   a quadrant by distance from the midline (tooth 1 nearest the midline);
-  (b) enumeration-median — per-quadrant median normalised distance from
-  the midline for each position 1–8, learned from the 634-image
-  enumeration subset (medians 0.02–0.03 for position 1 rising
-  monotonically to 0.43–0.48 for position 8; n=341–630 per cell), with
-  the predicted position being the nearest median. Both are heuristics
-  and are evaluated, not assumed.
+  (b) enumeration-median, per-quadrant median normalised distance for
+  each position 1–8, learned from the 634-image enumeration subset
+  (medians 0.02 for position 1 rising to 0.48 for position 8). Both
+  are heuristics and are evaluated, not assumed.
 
 ### Evaluation
 - Classifier: AUC, accuracy, sensitivity, specificity at 0.5, ECE
-  (10 bins); per-abnormality-type sensitivity on Tufts test; cross-site
-  AUC/sensitivity on DENTEX val (only 4 normal images — reported with
+  (10 bins); per-type sensitivity on Tufts test; cross-site
+  AUC/sensitivity on DENTEX val (only 4 normal images, reported with
   that caveat).
-- Detector: AP@IoU 0.5 per diagnosis and mean AP; quadrant accuracy and
-  FDI-position accuracy on matched boxes; image-level cross-site
-  sensitivity/specificity on the Tufts test split (any box ≥0.5).
+- Detector: AP@IoU 0.5 per diagnosis and mean AP [18]; quadrant and FDI-position accuracy on matched boxes; image-level cross-site sensitivity/specificity on Tufts test (any box ≥0.5).
+- Uncertainty: classifier AUCs are reported with 95% percentile-bootstrap confidence intervals (2,000 resamples, seed 42) in Table 1; detector mAP values are single-run point estimates without confidence intervals, and all model comparisons are descriptive unless a confidence interval is given. The three-seed GPU replication rows in Table 1 instead show the mean across seeds (± SD for AUC; per-seed range for sensitivity, specificity and ECE), because the seeds use different test splits.
+- Recomputation note: the relayed per-seed classifier metrics files' Tufts-test and DENTEX-validation AUC blocks were found inconsistent with their own prediction files (counts inverted in two seeds), and the aggregate file's summary means inherit the fault. Every classifier AUC, sensitivity, specificity and ECE reported here for the replication was recomputed from the prediction files. The run-A training log's embedded threshold-0.3 evaluation also differs from the standalone metrics file; this paper cites the standalone file.
 - Failure taxonomy: false negatives and false positives tabulated by
-  abnormality type, tooth position (molars 6–8 vs premolars 4–5 vs
-  anterior 1–3), and image-level factors. No metric is reported without
-  its denominator.
+  type, tooth position and image-level factors. No metric is reported
+  without its denominator.
 
 ### Reproducibility
-- Code, label harmonisation, and run logs: project repo
-  (`files/dental-panoramic-ai/`), commit to be added on GitHub push.
+- Code, label harmonisation, and run logs: project repo (`files/dental-panoramic-ai/`), public at https://github.com/boakyejeff/dental-panoramic-ai.
   Fixed seeds (42). CPU-only; exact environment in `requirements.txt`.
+  GPU run: notebook `colab/colab_gpu_detector.ipynb` and scripts
+  `colab/train_detector_gpu.py` / `colab/train_classifier_gpu.py`
+  (free Tesla T4, 2026-11-07); GPU result files
+  `results/detector_metrics_gpu.json`, `_thr03.json`,
+  `classifier_metrics_gpu.json`, predictions, figures, and train log
+  are in `results/`; GPU checkpoints
+  (`fasterrcnn_gpu_ep0–ep4.pt`, `resnet18_mixed_gpu.pt`) are stored
+  in the Drive run folder, not in the repo. Improvement run v2:
+  notebook `colab/colab_improvement_run_v2.ipynb` and scripts
+  `colab/train_detector_v2.py` / `colab/train_classifier_v2.py`
+  (free Tesla T4, 2026-11-08); result files
+  `results/detector_metrics_v2*.json`, `classifier_metrics_v2_gpu*.json`,
+  predictions, val-boxes files and train logs are in `results/`;
+  the aggregate ROC figure `results/roc_v2_gpu.png` was regenerated
+  locally from the prediction files (the Drive PNGs were not
+  transferred); the v2 checkpoints (20 Faster R-CNN, 3 ResNet18) are
+  in the Drive folder `colab_run_2026-11-08_v2/`, not in the repo.
 
 ## Results
 
 ### Dataset composition
-- Tufts: 1,000 images; 663 normal, 337 abnormal; 374 polygon-derived
-  abnormality boxes. (Figure 1.)
-- DENTEX validation: 50 images; 46 with ≥1 abnormal tooth, 4 with none;
-  182 boxes; 3.64 boxes/image; median box 170×271 px. Diagnoses:
-  caries 55%, impacted 22%, deep caries 18%, periapical lesion 5%.
-  Posterior teeth dominate: positions 6–8 account for 142/182 boxes
-  (78%). (Figure 1.)
+- Tufts: 1,000 images; 663 normal, 337 abnormal; 374 polygon-derived abnormality boxes.
+- DENTEX validation: 50 images (46 abnormal, 4 normal); 182 boxes; 3.64 boxes/image; median box 170×271 px. Positions 6–8 account for 142/182 boxes (78%).
+
+**Figure 1a.** Dataset composition: Tufts 1,000 panoramics (663 normal, 337 abnormal) and DENTEX validation (50 images, 182 boxes).
+
+**Figure 1b.** Example panoramic radiographs: Tufts (top row) and DENTEX (bottom row).
 
 ### Classifier: in-distribution and cross-site
-ResNet18 (4 epochs, best/val checkpoint as reported in
-`results/classifier_metrics.json`; note the run-2 checkpoint is the
-final-epoch model — see Limitations):
+ResNet18 (4 epochs; pilot numbers come from the final-epoch checkpoint, see Limitations):
 
-| Split | n (pos) | AUC | Accuracy | Sensitivity | Specificity | ECE |
-|---|---|---|---|---|---|---|
-| Tufts val | 150 (51) | 0.50 | 0.49 | 0.67 | 0.39 | 0.27 |
-| Tufts test | 151 (51) | 0.65 | 0.52 | 0.71 | 0.43 | 0.27 |
-| DENTEX val (cross-site) | 50 (46) | 0.28 | 0.46 | 0.48 | 0.25 | 0.39 |
+**Table 1.** ResNet18 abnormality classifier by run and split. AUC with 95% percentile-bootstrap confidence interval (2,000 resamples) for test and DENTEX validation splits, sensitivity/specificity at 0.5, and ECE (10 bins). Tufts validation AUCs are point estimates (checkpoint selection set). DENTEX validation has 46 abnormal and 4 normal images, so its AUC is unstable; sensitivity at 0.5 is the interpretable number. The v2 GPU rows show the mean across three seeds (± SD for AUC; per-seed range for sensitivity, specificity and ECE), recomputed from the prediction files; seed 42 reproduces the earlier single-run GPU rerun almost exactly (DENTEX 0.554, Tufts test 0.587).
 
-Per-abnormality-type sensitivity on Tufts test: Periapical 0.77 (30/39),
-Non-Odontogenic 0.50 (6/12), Pericoronal 0.60 (3/5). (Some test images
-carry two abnormality types, so type totals exceed the image count.)
+| Run | Split | n (pos) | AUC (95% CI) | Sens/spec at 0.5 | ECE |
+|---|---|---|---|---|---|
+| Pilot | Tufts val | 150 (51) | 0.50 | 0.67/0.39 | 0.27 |
+| Pilot | Tufts test | 151 (51) | 0.65 (0.56-0.74) | 0.71/0.43 | 0.27 |
+| Pilot | DENTEX val (cross-site) | 50 (46) | 0.28 (0.00-0.56) | 0.48/0.25 | 0.39 |
+| Mixed-site v2 | Tufts val | 150 (51) | 0.54 | 0.14/0.83 | 0.13 |
+| Mixed-site v2 | Tufts test | 151 (51) | 0.60 (0.51-0.70) | 0.25/0.81 | 0.13 |
+| Mixed-site v2 | DENTEX val (cross-site) | 50 (46) | **0.84 (0.71-0.95)** | 0.93/0.25 | 0.22 |
+| v2 GPU (3 seeds) | Tufts val | 150 (51) | 0.62 ± 0.04 | 0.44 (0.08-0.88) / 0.72 (0.40-0.96) | 0.10 (0.04-0.18) |
+| v2 GPU (3 seeds) | Tufts test | 151 (51) | 0.57 ± 0.04 | 0.41 (0.08-0.75) / 0.63 (0.28-0.94) | 0.10 (0.03-0.18) |
+| v2 GPU (3 seeds) | DENTEX val (cross-site) | 50 (46) | 0.53 ± 0.17 | 0.65 (0.11-0.94) / 0.33 (0.00-1.00) | 0.37 (0.23-0.50) |
+
+Per-type sensitivity on Tufts test: Periapical 0.77 (30/39),
+Non-Odontogenic 0.50 (6/12), Pericoronal 0.60 (3/5); some test images
+carry two types, so type totals exceed the image count.
 The cross-site AUC of 0.28 is below chance: the classifier systematically
-scores abnormal DENTEX images *lower* than normal ones — it learned
-Tufts-specific cues (scanner, contrast, site artefacts) that
-anti-correlate on a different site's scans. The DENTEX AUC carries a
-wide confidence interval (only 4 normal images), but the sensitivity of
-0.48 on 46 abnormal images is itself informative: the model misses half
-of the abnormal cases cross-site. Calibration is poor in all splits
-(ECE 0.27–0.39): the model is overconfident on its errors. (Figure: ROC,
-`results/roc.png`.)
+scores abnormal DENTEX images *lower* than normal ones, having learned Tufts-specific cues (scanner, contrast, site artefacts) that anti-correlate on a different site's scans [19]. The DENTEX AUC carries a
+wide confidence interval (only 4 normal images), but sensitivity 0.48 on 46 abnormal images is itself informative: the model misses half
+the abnormal cases cross-site. Calibration is poor in all splits (ECE 0.27–0.39). (Supplementary Figure S1).
 
 ### Classifier v2: mixed-site training
-Same ResNet18 recipe, trained on Tufts 699 + 102 DENTEX training
-images, from `results/classifier_metrics_v2.json` (best epoch 2, val
-AUC 0.54):
+Mixed-site training (Tufts 699 + 102 DENTEX training images; best epoch 2, val AUC 0.54; Table 1) fixed the cross-site ranking inversion: DENTEX
+validation AUC rose from 0.28 to 0.84, sensitivity 0.93 at 0.5
+(43/46 abnormal found), and Tufts-test ECE halved (0.27 to 0.13). But it did not make the classifier good: Tufts test AUC fell slightly (0.65 to 0.60), and the operating point became unstable, swinging between 0.94/0.08 at epoch 1 and 0.14/0.83 at epoch 2, conservative on Tufts (0.25) but liberal on DENTEX (0.93) at 0.5. At the val-tuned threshold 0.45, Tufts test sensitivity rises to 0.94 but specificity falls to 0.21, and DENTEX specificity to 0.00. Adding 102 DENTEX images teaches the model that DENTEX scans can be abnormal, which fixes ranking, but the sites' cues still conflict enough that no single threshold works for both. 
 
-| Split | n (pos) | AUC pilot → v2 | Sens/spec at 0.5 pilot → v2 | ECE pilot → v2 (raw) |
-|---|---|---|---|---|
-| Tufts val | 150 (51) | 0.50 → 0.54 | 0.67/0.39 → 0.14/0.83 | 0.27 → 0.13 |
-| Tufts test | 151 (51) | 0.65 → 0.60 | 0.71/0.43 → 0.25/0.81 | 0.27 → 0.13 |
-| DENTEX val (cross-site) | 50 (46) | 0.28 → **0.84** | 0.48/0.25 → 0.93/0.25 | 0.39 → 0.22 |
-
-Mixed-site training fixed the cross-site ranking inversion: DENTEX
-validation AUC rose from 0.28 to 0.84, with sensitivity 0.93 at 0.5
-(43/46 abnormal found). It also halved Tufts-test ECE (0.27 → 0.13)
-— the model is less overconfident. But it did not make the classifier
-good: Tufts test AUC fell slightly (0.65 → 0.60), and the operating
-point became unstable. Across epochs the model swung between
-extremes — epoch 1: sensitivity 0.94 / specificity 0.08; epoch 2:
-0.14 / 0.83 — and across sites at the fixed 0.5 threshold it is
-conservative on Tufts (sensitivity 0.25) and liberal on DENTEX
-(sensitivity 0.93). At the val-tuned threshold 0.45, Tufts test
-sensitivity rises to 0.94 but specificity falls to 0.21, and DENTEX
-specificity falls to 0.00 (all 4 normal images flagged). Temperature
-scaling (T=1.75, fitted on Tufts val) did not help calibration
-anywhere: ECE was slightly worse calibrated than raw on all three
-splits (Tufts test 0.15 vs 0.13; DENTEX val 0.28 vs 0.22), so the ECE
-improvement came from mixed training itself, not from the scaling.
-Per-type sensitivity on Tufts test at 0.5 collapsed (Periapical
-0.33, Non-Odontogenic 0.08, Pericoronal 0.20) because the operating
-point shifted, not because ranking worsened. The honest reading:
-adding 102 DENTEX images teaches the model that DENTEX scans can be
-abnormal, which fixes ranking, but the two sites' cues still conflict
-enough that no single threshold works for both. (Figure: ROC,
-`results/roc_v2.png`.)
+**Figure 2.** ROC curves, classifier v2 GPU replication (three seeds, mixed-site training, Tufts 699 + DENTEX 102). Mean ROC with +/-1 SD band; per-seed curves shown. Tufts test (n=151) and DENTEX validation (n=50, 4 normal images). AUCs recomputed from the prediction files.
 
 ### Detector: full 705-image run and hierarchical performance
-Faster R-CNN (MobileNetV3-FPN), 705 DENTEX training images, evaluated
-on the held-out 50-image validation set (182 GT boxes), from
-`results/detector_metrics_705.json` (and `_thr03.json`):
+Faster R-CNN (MobileNetV3-FPN), 705 DENTEX training images, evaluated on the held-out 50-image validation set (182 GT boxes):
 
-| Diagnosis | AP@IoU 0.5 (≥0.5) | AP@IoU 0.5 (≥0.3) | Pilot (40 imgs, ≥0.5) |
+**Table 2.** Detector per-diagnosis AP at IoU 0.5 on the DENTEX validation set (50 images, 182 boxes). CPU run: Faster R-CNN MobileNetV3-FPN at 768x384; GPU run: ResNet50-FPN at 1024x512; v2: GPU run with 200 Tufts normal negatives added (905 train images, 10 epochs); v2 focal: same with focal loss; pilot: Faster R-CNN ResNet50-FPN trained on 40 images.
+
+| Run | Diagnosis | AP@IoU 0.5 (≥0.5) | AP@IoU 0.5 (≥0.3) |
 |---|---|---|---|
-| Caries | 0.12 | 0.19 | 0.28 |
-| Impacted | 0.68 | 0.73 | 0.25 |
-| Periapical lesion | 0.29 | 0.35 | 0.00 |
-| Deep caries | 0.00 | 0.04 | 0.00 |
-| **Mean AP** | **0.27** | **0.33** | **0.13** |
+| Pilot | Caries | 0.28 | - |
+| Pilot | Impacted | 0.25 | - |
+| Pilot | Periapical lesion | 0.00 | - |
+| Pilot | Deep caries | 0.00 | - |
+| Pilot | **Mean AP** | **0.13** | - |
+| CPU 705 | Caries | 0.12 | 0.19 |
+| CPU 705 | Impacted | 0.68 | 0.73 |
+| CPU 705 | Periapical lesion | 0.29 | 0.35 |
+| CPU 705 | Deep caries | 0.00 | 0.04 |
+| CPU 705 | **Mean AP** | **0.27** | **0.33** |
+| GPU | Caries | 0.28 | 0.30 |
+| GPU | Impacted | 0.69 | 0.71 |
+| GPU | Periapical lesion | 0.11 | 0.14 |
+| GPU | Deep caries | 0.34 | 0.37 |
+| GPU | **Mean AP** | **0.355** | **0.377** |
+| v2 | Caries | 0.29 | 0.31 |
+| v2 | Impacted | 0.80 | 0.81 |
+| v2 | Periapical lesion | 0.13 | 0.14 |
+| v2 | Deep caries | 0.28 | 0.33 |
+| v2 | **Mean AP** | **0.374** | **0.399** |
+| v2 focal | Caries | 0.15 | 0.24 |
+| v2 focal | Impacted | 0.69 | 0.73 |
+| v2 focal | Periapical lesion | 0.00 | 0.11 |
+| v2 focal | Deep caries | 0.05 | 0.12 |
+| v2 focal | **Mean AP** | **0.223** | **0.299** |
 
-68/182 GT boxes were matched with the correct class at IoU ≥ 0.5
-(107/182 at ≥ 0.3). On matched boxes, quadrant-from-box-centre
-accuracy was 0.94 (64/68; 0.94 at ≥ 0.3, 100/107) — the geometric
-quadrant heuristic works at both thresholds. FDI tooth-position
-accuracy by midline-rank was still 0.00 (0/68): ranking abnormal boxes
-by distance from the midline gives a *relative* rank among detected
-abnormal teeth, while the ground truth is an *absolute* position
-(e.g. 6, 7, 8 for molars). The enumeration-median model recovered
-0.53 (36/68; 0.56, 60/107 at ≥ 0.3) — a genuine improvement over 0.00,
-but still only about half of positions, because the model's predicted
-boxes are themselves imprecise and because neighbouring positions'
-medians are only ~0.05 apart in normalised distance. Image-level on
-DENTEX validation, the detector found at least one box in 40/46
-abnormal images at ≥ 0.5 (45/46 at ≥ 0.3) and fired on 2/4 normal
-images at ≥ 0.5 (4/4 at ≥ 0.3). (Figure:
-`results/detector_examples_705.png`.)
+68/182 GT boxes were matched at IoU ≥ 0.5
+(107/182 at ≥ 0.3). On matched boxes, quadrant accuracy was 0.94 (64/68; 0.94 at ≥ 0.3, 100/107). FDI accuracy by midline-rank was still 0.00 (0/68):
+ranking boxes by distance from the midline gives a *relative* rank,
+while the ground truth is an *absolute* position. The enumeration-median model recovered 0.53 (36/68; 0.56 at ≥ 0.3), still only about half, because neighbouring medians are only ~0.05 apart. Image-level on DENTEX validation, the
+detector found at least one box in 40/46 abnormal images at ≥ 0.5
+(45/46 at ≥ 0.3) and fired on 2/4 normals (4/4 at ≥ 0.3).
+(Supplementary Figure S3).
 The one regression vs the pilot is Caries AP (0.28 → 0.12 at ≥ 0.5):
 the pilot's ResNet50 backbone at 1024×512 resolved small caries
-lesions better than the MobileNetV3 backbone at 768×384, and caries
-boxes are the smallest and most numerous. That is a resolution/backbone
-trade-off forced by the CPU-only box (see Limitations), not a data
-effect — the 705-image model saw 2,189 caries boxes vs the pilot's
-~100. Deep caries remains the hardest class: it is never predicted at
-≥ 0.5 (0 TP, 0 FP) and only marginally at ≥ 0.3 (AP 0.04); it is
-visually a caries box with greater depth, and the model collapses it
-into the caries class or misses it.
+lesions better than MobileNetV3 at 768×384, and caries boxes are the
+smallest and most numerous, a resolution/backbone trade-off forced by the CPU-only box (see Limitations). Deep caries remains the hardest class: never predicted at ≥ 0.5 (0 TP, 0 FP) and only marginally at ≥ 0.3 (AP 0.04); deep caries differs from caries only by lesion depth, and the model collapses it into caries or misses it.
+
+### Detector: GPU improvement run v2 (Tufts negatives and focal loss)
+Faster R-CNN (ResNet50-FPN backbone, unfrozen), 905 training images
+(705 DENTEX + 200 Tufts train-split normals as box-free negatives),
+10 epochs on a free Tesla T4 (see Methods). Same 50-image validation
+set (182 GT boxes) and the same Tufts test split (n=151; Tables 2, 3):
+
+The v2 run reached mAP 0.374 at ≥ 0.5 (0.399 at ≥ 0.3), up from
+0.355 (0.377) in the run-1 GPU run, with Impacted AP 0.795, Caries
+0.294, Periapical Lesion 0.127 and Deep Caries 0.282. Quadrant
+accuracy was 0.937 (127 matched) and FDI by enumeration-median 0.583
+(0.569 at ≥ 0.3). The headline is cross-site: on Tufts test the v2
+detector is 0.588 sensitive and 0.51 specific at ≥ 0.5 (30/51
+abnormal found, 51/100 normals passed), against 0.902/0.09 in run 1,
+so the negatives fixed the specificity collapse at the operating
+point; at ≥ 0.3 it is 0.706/0.34. Per-type sensitivity on Tufts at ≥ 0.5: Pericoronal 0.60 (3/5), Periapical 0.59 (23/39), Non-Odontogenic 0.50 (6/12); at ≥ 0.3: 0.60, 0.69 and 0.67.
+On DENTEX validation it found at least one box in 46/46 abnormal
+images at both thresholds and fired on all 4 normals, so that specificity is not interpretable.
+
+The focal-loss variant (run B) hurt everywhere: mAP 0.223 at ≥ 0.5
+(0.299 at ≥ 0.3), Periapical Lesion AP 0.0, Deep Caries 0.052,
+quadrant 0.923 (78 matched), FDI 0.577. On Tufts it is 0.451/0.58
+at ≥ 0.5 and 0.961/0.09 at ≥ 0.3, so the collapse returns at the sensitive threshold.
+
+**Table 3.** Detector per-diagnosis true positives, false negatives, and false positives at IoU ≥ 0.5 and score ≥ 0.5 on the DENTEX validation set (182 boxes). Recall = TP/(TP+FN).
+
+| Run | Diagnosis | TP | FN | FP | Recall |
+|---|---|---|---|---|---|
+| CPU 705 | Caries | 30 | 71 | 77 | 0.30 |
+| CPU 705 | Impacted | 34 | 6 | 21 | 0.85 |
+| CPU 705 | Periapical lesion | 4 | 5 | 11 | 0.44 |
+| CPU 705 | Deep caries | 0 | 32 | 0 | 0.00 |
+| CPU 705 | **Total** | **68** | **114** | **109** | - |
+| GPU | Caries | 76 | 25 | 267 | 0.75 |
+| GPU | Impacted | 36 | 4 | 18 | 0.90 |
+| GPU | Periapical lesion | 2 | 7 | 13 | 0.22 |
+| GPU | Deep caries | 17 | 15 | 22 | 0.53 |
+| GPU | **Total** | **131** | **51** | **320** | - |
+| v2 | Caries | 74 | 27 | 275 | 0.73 |
+| v2 | Impacted | 36 | 4 | 12 | 0.90 |
+| v2 | Periapical lesion | 2 | 7 | 14 | 0.22 |
+| v2 | Deep caries | 15 | 17 | 25 | 0.47 |
+| v2 | **Total** | **127** | **55** | **326** | - |
+| v2 focal | Caries | 42 | 60 | 126 | 0.41 |
+| v2 focal | Impacted | 34 | 6 | 9 | 0.85 |
+| v2 focal | Periapical lesion | 0 | 9 | 0 | 0.00 |
+| v2 focal | Deep caries | 2 | 29 | 4 | 0.07 |
+| v2 focal | **Total** | **78** | **104** | **139** | - |
+
+The v2 run matched 127 of 182 boxes (55 missed, 326 false positives), against 131, 51 and 320 in run 1. Caries false positives dominate (275 of 326), so caries precision is 0.21 even though caries recall rose to 0.73 (74/101), which is why mAP rose only to 0.374. Periapical recall stayed low at 0.22 (2/9). The focal run matched only 78 boxes (104 missed, 139 false positives); deep caries recall fell to 0.07 (2/32) and periapical to 0.00 (0/9). 
+
+**Figure 3.** Example DENTEX validation panoramics with predicted boxes, GPU full-resolution detector run (run 1; the v2 example figures were not transferred from the run folder). Predicted boxes in red (diagnosis and score shown); ground-truth boxes in lime dashed lines. Score threshold 0.5. Checkpoints
+`fasterrcnn_gpu_ep0–ep4.pt` are stored in the Drive run folder, not
+in the repo. One provenance note: the DENTEX validation triple was rebuilt from this project's own harmonised outputs (see Methods).
+
+### Classifier: GPU three-seed replication (same mixed-site recipe)
+Same ResNet18 recipe as v2, rerun on the GPU across seeds 42, 0 and 1,
+4 epochs each (best epoch by Tufts val AUC; Table 1, Figure 2):
+
+The three-seed replication did **not** reproduce the CPU v2 result: DENTEX validation AUC averaged 0.53 across seeds (per-seed 0.55,
+0.68, 0.35) and Tufts test AUC 0.57 (0.59, 0.59, 0.53), against the
+CPU v2 single-run values of 0.84 and 0.60. Seed 42 reproduces the
+earlier single-run GPU rerun almost exactly (0.554, 0.587), so the recipe is unstable across seeds. At 0.5 the operating point
+swings by seed: Tufts test sensitivity 0.08-0.75 and specificity
+0.28-0.94; DENTEX validation sensitivity 0.11-0.94 and specificity
+0.00-1.00 (4 normals). Calibration is poor on DENTEX (mean ECE
+0.37). No re-tuning was attempted. The CPU v2 DENTEX AUC of 0.84 was a single-run result no GPU replication reproduces, so the mixed-site ranking fix is not reliable, and the classifier claims nothing on Tufts test; the detector is the only transferable result. (Supplementary Figure S2 shows the earlier single-run ROC.)
 
 ### Cross-site detector test on Tufts
-Detector trained on DENTEX, applied to the Tufts test split (n=151):
-
-| Threshold | Abnormal detected (n=51) | Normal flagged (n=100) | Sensitivity | Specificity |
-|---|---|---|---|---|
-| ≥ 0.5 | 30 | 64 | 0.59 | 0.36 |
-| ≥ 0.3 | 47 | 85 | 0.92 | 0.15 |
-| Pilot (40 imgs, ≥ 0.5) | 38 | 84 | 0.75 | 0.16 |
+Detector trained on DENTEX, applied to the Tufts test split (n=151; Table S1):
 
 Sensitivity by Tufts abnormality type at ≥ 0.5: Pericoronal 1.00
 (5/5), Periapical 0.56 (22/39), Non-Odontogenic 0.50 (6/12); at
-≥ 0.3: 1.00, 0.95 (37/39), 0.75 (9/12). The cross-site story is now
-a threshold story, not a single number: at ≥ 0.5 the 705-image model
-is more conservative than the pilot (specificity 0.36 vs 0.16) but
-misses more abnormal cases (sensitivity 0.59 vs 0.75); at ≥ 0.3 it
-recovers sensitivity 0.92 at the cost of specificity 0.15 — the same
-collapse the pilot showed. The structural reason is unchanged:
-DENTEX's fully-labelled training split contains almost only images
-with abnormal teeth (678/705), so the detector is barely trained to
-output nothing. Any deployment claim would need normal-image training
-and a calibrated operating point — neither is in this study.
+≥ 0.3: 1.00, 0.95 (37/39), 0.75 (9/12). The run-1 GPU detector is
+sensitive to every type at both thresholds (1.00, 0.87, 0.83) but flags 91-92 of 100 normal images. The v2 detector is 0.588/0.51
+at ≥ 0.5 and 0.706/0.34 at ≥ 0.3 (Table S1): the 200 Tufts negatives bought specificity at little sensitivity cost;
+the focal variant is 0.451/0.58 at ≥ 0.5 and 0.961/0.09 at ≥ 0.3,
+so the collapse returns at the sensitive threshold. At ≥ 0.5 the
+705-image model is more conservative than the pilot (0.36 vs 0.16
+specificity) but misses more abnormal cases (0.59 vs 0.75
+sensitivity); at ≥ 0.3 it recovers sensitivity 0.92 at specificity
+0.15. DENTEX's training split is almost all abnormal (678/705), so the detector is barely
+trained to output nothing, and 200 target-site normals are a small
+counterweight.
 
 ### Failure taxonomy
-- Global classifier: fails cross-site entirely (DENTEX AUC 0.28, below
-  chance) and is poorly calibrated everywhere (ECE 0.27-0.39). Small
-  lesions are lost at 512x256; periapical and non-odontogenic
-  abnormalities are missed most (sensitivities 0.77 / 0.50 on Tufts test).
-- Detector (705-image run, ≥ 0.5, 182 val boxes: 68 TP, 114 FN, 109 FP):
-  impacted teeth are found reliably (34/40, recall 0.85) and
-  periapical lesions partly (4/9, recall 0.44, up from 0 AP in the
-  pilot), but caries recall is only 30/101 (0.30) and deep caries is
-  never detected (0/32) and never even predicted (0 FP as deep caries).
-  By tooth position, the model only detects molar-region abnormalities
-  (64/68 TP are positions 6–8); premolar recall is 4/26 and anterior
-  recall is 0/14 — small, crowded anterior teeth are invisible to it
-  at 768×384. By quadrant, misses concentrate on the image-left side
-  (Q1: 36 FN, Q3: 37 FN of 114) and false positives on the lower jaw
-  (Q3: 38 FP, Q4: 34 FP of 109). TP scores (mean 0.77) separate only
-  partly from FP scores (mean 0.63), which is why the 0.3 threshold
-  buys recall (mAP 0.33) at the cost of specificity. Quadrant
-  localisation is reliable (0.94); FDI position from abnormal boxes
-  alone is not (0.00, structural), while the enumeration-median model
-  recovers 0.53. Cross-site, the sensitivity/specificity trade-off is
-  set by the threshold (0.59/0.36 at ≥ 0.5; 0.92/0.15 at ≥ 0.3) —
-  over-detection, driven by the absence of normal images in DENTEX
-  training.
+- Global classifier: fails cross-site entirely (pilot DENTEX AUC 0.28, below chance; three-seed GPU replication mean 0.53) and is poorly calibrated everywhere (ECE 0.27-0.39 in the pilot and v2 runs, mean 0.37 on DENTEX in the replication); the operating point swings by seed (Tufts test sensitivity 0.08-0.75 at 0.5). Periapical and non-odontogenic abnormalities are missed most on Tufts test in the pilot (0.77 and 0.50).
+- Detector (≥ 0.5, 182 val boxes): CPU run 68 TP / 114 FN / 109 FP; v2 run 127 TP / 55 FN / 326 FP. Impacted recall 0.85 (CPU) and 0.90 (v2); periapical 0.44 and 0.22; caries 0.30 and 0.73; deep caries 0.00 (CPU, 0 FP as deep caries) and 0.47 (v2). By tooth position, molar recall is 112/142 (0.79) in the v2 run, premolar 4/26 (CPU) and 14/26 (v2), anterior 0/14 (CPU) and 1/14 (v2): small crowded anterior teeth are nearly invisible even at full resolution. In both runs misses concentrate in Q1 and Q3 and false positives on the lower jaw (CPU: 36 and 37 FN, Q3/Q4 FP 38/34; v2: 18 and 17 FN, Q3/Q4 FP 113/92). TP scores (means 0.77 CPU, 0.80 v2) separate only partly from FP scores (0.63, 0.68). Quadrant localisation is reliable (0.94); FDI by enumeration-median recovers 0.53 (CPU) and 0.58 (v2). Cross-site, the trade-off is set by the threshold (CPU 0.59/0.36 at ≥ 0.5; v2 0.588/0.51). The focal variant is worse on every axis (78 TP, 104 FN, 139 FP; anterior 0/14, premolar 3/26, periapical 0/9).
 
 ## Discussion
-- What generalised and what did not: image-level *sensitivity* can
-  transfer across sites for the detector (0.92 on Tufts at ≥ 0.3 after
-  DENTEX training), but the global classifier's ranking inverts
-  cross-site when trained on one site (AUC 0.28) and the detector's
-  specificity collapses at the sensitive operating point (0.15). The
-  two failures have different causes — the classifier learned
-  site-specific cues; the detector never learned "normal" because its
-  training set contains almost no normal images. Mixed-site training
-  fixes the classifier's ranking (DENTEX AUC 0.28 → 0.84) but not the
-  operating point: the model swings between extremes across epochs
-  (sens/spec 0.94/0.08 at epoch 1, 0.14/0.83 at epoch 2) and no single
-  threshold works for both sites. Ranking and calibration are
-  separable problems — mixed training fixed ranking and halved ECE,
-  while temperature scaling helped neither.
-- Why periapical lesion improved (AP 0.00 → 0.29) and deep caries did
-  not (0.00): 705 images with rare-class duplication cover periapical
-  (158 boxes) well enough to detect it, but deep caries (578 boxes) is
-  visually a caries box with greater depth — a within-class distinction
-  the detector collapses, not a sample-size problem. Anterior teeth
-  (0/14 detected) and premolars (4/26) fail for a different reason:
-  small crowded teeth at 768×384 resolution.
-- Why hierarchical evaluation matters: quadrant from box centre is
-  reliable (0.94), but FDI position cannot be derived from abnormal
-  boxes alone (0.00) — a right-tooth/wrong-disease error and a missed
-  tooth are different clinical failures, and the hierarchy makes that
-  visible instead of hiding it inside mAP. The enumeration-median model
-  (0.53–0.56) shows FDI is partly recoverable from geometry alone, and
-  that full tooth enumeration is the way to close the rest of the gap.
-- Relation to prior work: DENTEX baseline (HierarchicalDet, diffusion
-  detector) and Tufts segmentation benchmarks report in-distribution
-  numbers; this study's contribution is the cross-site + failure-taxonomy
-  evaluation, not a new architecture. Our mAP (0.27 at ≥ 0.5, 0.33 at
-  ≥ 0.3) remains below the published baseline — expected for a frozen
-  MobileNetV3 backbone at 768×384 on a CPU-only box vs a full
-  hierarchical detector, and the pilot-to-705 gap (0.13 → 0.27)
-  quantifies how much the full training set matters.
-- Deployment implication: single-site validation is insufficient evidence;
-  a model that cannot say "normal" is not deployable, however good its
-  sensitivity looks — and the operating point must be reported with the
-  sensitivity, since 0.59/0.36 and 0.92/0.15 are the same model.
+
+Image-level sensitivity can transfer across sites for the detector (0.92 on Tufts at ≥ 0.3 after DENTEX training), but the global classifier's ranking inverts when trained on one site (AUC 0.28), and the detector's specificity collapses at the sensitive operating point (0.15). The two failures have different causes: the classifier learned site-specific cues, while the detector never learned "normal" because its training set has almost no normal images. Adding 200 normal images from the target site fixed the detector's specificity at the operating point (0.51 at ≥ 0.5). Mixed-site training fixed the classifier's ranking on the CPU run (0.28 to 0.84) but not the operating point: the model swings between extremes across epochs (0.94/0.08 at epoch 1, 0.14/0.83 at epoch 2) and across seeds (Tufts test sensitivity 0.08-0.75 at 0.5), and no single threshold works for both sites. Ranking and calibration are separable: mixed training fixed ranking and halved ECE, but temperature scaling helped neither [8].
+
+Periapical lesion improved from the pilot on the CPU run (AP 0.00 to 0.29) but fell back to 0.13 in the v2 run, while deep caries rose to 0.28 in the v2 run from 0.00 on the CPU: rare-class duplication covers periapical lesions (158 boxes) well enough to detect them sometimes, but deep caries (578 boxes) differs from caries only by lesion depth, a within-class distinction the detector collapses, not a sample-size problem. Anterior teeth (1/14 in the v2 run, 0/14 on the CPU run) and premolars (14/26 in the v2 run, 4/26 on the CPU run) fail because they are small and crowded, and full resolution recovered only part of the gap.
+
+The v2 detector run (ResNet50-FPN, unfrozen, 1024x512, 200 Tufts normal negatives) reached mAP 0.374 and fixed cross-site specificity at the operating point (0.51 on Tufts at ≥ 0.5, up from 0.09 in run 1); focal loss made everything worse (0.223), so the fix was the negatives. The GPU classifier replication is the more serious result: the same mixed-site recipe that scored DENTEX AUC 0.84 averaged 0.53 across three GPU seeds (0.55, 0.68, 0.35) and 0.57 on Tufts test. A single-run cross-site number should not be trusted until it replicates; this manuscript reports all runs rather than the better one.
+
+Quadrant localisation is reliable (0.94), but FDI position cannot be derived from abnormal boxes alone (0.00). A right-tooth/wrong-disease error and a missed tooth are different clinical failures, and the hierarchy makes that visible instead of hiding it inside mAP. The enumeration-median model (0.53-0.56) shows FDI is partly recoverable from geometry alone; full tooth enumeration is the way to close the rest [20].
+
+HierarchicalDet reports diagnosis AP50 0.60 on the DENTEX test split [7]; our mAP (0.27 at ≥ 0.5, 0.33 at ≥ 0.3 on CPU; 0.355 and 0.377 in run 1; 0.374 and 0.399 in the v2 run, on the 50-image validation split) remains below that baseline, expected for a Faster R-CNN trained on the 705-image split against a full hierarchical detector. The pilot-to-705 gap (0.13 to 0.27) mixes a larger training set with a different backbone and resolution, so it does not isolate training-set size.
+
+Single-site validation is insufficient evidence [21]: a model that cannot say "normal" is not deployable, and the operating point must be reported alongside sensitivity, since 0.59/0.51 and 0.71/0.34 are the same model at two thresholds.
+
 
 ## Limitations
+
 - Detector trained on a CPU-only box with a frozen MobileNetV3 backbone
   at 768×384 (ResNet50-FPN at 1024×512 was benchmarked infeasible at
   ~6.4 h/epoch); the lighter backbone costs small-lesion accuracy
-  (Caries AP fell vs the pilot's ResNet50, 0.28 → 0.12). A GPU run at
-  full resolution with an unfrozen backbone is the obvious next step
-  and would be expected to recover caries AP.
-- The compute box rebooted once mid-epoch-2 (~01:49 UTC, 2026-11-07),
-  killing the run and wiping /tmp; training resumed from the epoch-1
-  checkpoint at the scheduled lr 5e-4 with identical loss trajectory
-  (ep-2 step-200 loss 0.569 resumed vs 0.567 pre-restart). Evaluation
-  then crashed once on a missing 768×384 validation cache (never
-  built); the cache was rebuilt and evaluation rerun from the epoch-2
-  checkpoint with `--eval-only`. No training data was lost; all
-  checkpoints are per-epoch.
+  (Caries AP fell vs the pilot's ResNet50, 0.28 → 0.12). A full-resolution GPU run (free Tesla T4, 5 epochs, 19 min) recovered caries AP (0.12 → 0.28) and deep caries (0.00 → 0.34) but regressed periapical lesions (0.29 → 0.11) and did not fix cross-site specificity (0.09 on Tufts). The v2 run (10 epochs, 200 Tufts normal negatives) fixed cross-site specificity at ≥ 0.5 (0.09 → 0.51) and reached mAP 0.374, but periapical lesions stayed weak (AP 0.13) and focal loss made everything worse (0.223). The periapical regression has no tested mechanism.
+- The DENTEX validation ground truth has no downloadable triple (see Methods for the rebuild). The GPU classifier's failure to reproduce the CPU v2 DENTEX AUC is confirmed across three seeds (mean 0.53, per-seed 0.55, 0.68, 0.35); the mixed-site ranking fix is not reliable.
+- The compute box rebooted once mid-training; the run resumed from the epoch-1 checkpoint, and evaluation was rerun from the epoch-2 checkpoint after a missing validation cache was rebuilt.
 - DENTEX validation cross-test for the classifier has only 4 normal
-  images; its AUC is unstable — sensitivity at 0.5 (0.48 pilot, 0.93
-  v2, on 46 abnormal images) is the interpretable number. The v2
-  DENTEX sample is also limited by the training pool: only 27 normal
-  DENTEX images exist in the 705-image training split, so the balanced
-  mixed set could add just 27 normals.
+  images; its AUC is unstable, sensitivity at 0.5 (0.48 pilot, 0.93
+  v2, on 46 abnormal images) is the interpretable number. The training pool holds only 27 normal DENTEX images.
 - Classifier v2's operating point is unstable: sensitivity/specificity
-  swung 0.94/0.08 → 0.14/0.83 between epochs 1 and 2, and no single
-  threshold works for both sites (0.5 gives 0.25/0.81 on Tufts test
-  vs 0.93/0.25 on DENTEX val; 0.45 gives 0.94/0.21 vs 1.00/0.00).
+  swung 0.94/0.08 → 0.14/0.83 between epochs 1 and 2, and across seeds
+  in the three-seed GPU replication (Tufts test sensitivity 0.08-0.75
+  at 0.5), and no single threshold works for both sites (0.5 gives
+  0.25/0.81 on Tufts test vs 0.93/0.25 on DENTEX val; 0.45 gives
+  0.94/0.21 vs 1.00/0.00).
   Temperature scaling fitted on Tufts val did not improve ECE on any
-  split. A site-specific threshold or a domain-adversarial objective
-  would be needed before any deployment claim; 4 epochs of a
-  single-logit ResNet18 cannot settle this.
+  split. A site-specific threshold or a domain-adversarial objective [22] would be needed before any deployment claim.
 - Taxonomies do not match across datasets; per-diagnosis cross-site
   comparison was not possible.
-- Single-country DENTEX (Türkiye); single-institution Tufts (USA,
-  2014–2016); both predate current scanners.
+- Single-country DENTEX (Türkiye); single-institution Tufts (USA, 2014–2016).
 - Bounding boxes, not pixel masks; no clinical outcomes; no
   reader study against dentists.
-- Public DENTEX test release carries no Deep Caries label (2026
-  reproduction), so the original four-diagnosis numbers cannot be
-  recomputed from public data alone; our validation sample does contain
-  Deep Caries (n=32).
-- Run-2 classifier checkpoint is the final-epoch (ep 3) model, not the
-  argmax-epoch model: the best-checkpoint code stored state_dict tensors
-  without `.clone()`, so later epochs overwrote the saved ep-2 weights.
-  The bug is fixed in `src/train_classifier.py`; all classifier numbers
-  reported here are from the ep-3 checkpoint as evaluated, and the
-  difference vs the ep-2 checkpoint is small (val AUC 0.504 vs 0.520).
-- Detector training was interrupted once by an empty-target tensor
-  shape error ([0] instead of [0,4]) on an image with no boxes; fixed
-  with `.reshape(-1, 4)` and the run restarted from scratch with
-  `--eval-only` added for checkpoint reuse.
+- The public DENTEX release provides ground truth only for the 705-image training split; the validation images ship without labels and the 250-image test split is withheld [9], so the original four-diagnosis numbers cannot be recomputed from public data alone.
+- Pilot classifier checkpoint is the final-epoch (ep 3) model, not the argmax-epoch model: the best-checkpoint code stored state_dict tensors without `.clone()`, so later epochs overwrote the saved ep-2 weights. The bug is fixed in `src/train_classifier.py`; all pilot classifier numbers here are from the ep-3 checkpoint (val AUC 0.504 vs 0.520 for ep-2). The mixed-site v2 classifier was unaffected.
 
 ## Conclusion
 Cross-site generalisation is the weak point of panoramic dental AI, not
 an afterthought: a global classifier that scores AUC 0.65 at home falls
 to 0.28 abroad, and a detector's cross-site behaviour is set by its
-operating point (sensitivity 0.59/specificity 0.36 at ≥ 0.5;
-0.92/0.15 at ≥ 0.3). Quadrant localisation is reliable (0.94), but
+operating point (0.59/0.51 at ≥ 0.5;
+0.71/0.34 at ≥ 0.3 in the v2 run). Quadrant localisation is reliable (0.94), but
 FDI numbering cannot be recovered from abnormal boxes alone (0.00);
-an enumeration-median model recovers about half (0.53–0.56), and full
-tooth enumeration is the way to close the rest. Training on 705
-instead of 40 images doubled mAP (0.13 → 0.27) and lifted periapical
-detection from 0 to 0.29, but deep caries (0/32) and anterior teeth
-(0/14) remain undetected. Mixed-site classifier training fixed the
-cross-site ranking inversion (DENTEX AUC 0.28 → 0.84) while leaving
-the operating point unstable. The contribution is the evaluation
-design — harmonised cross-site testing, hierarchical scoring, and a
-failure taxonomy — and the defined next steps before submission are a
-GPU full-resolution detector run (to recover caries AP and anterior
-teeth) and a site-robust classifier (site-specific thresholds or
-domain-adversarial training), plus the Open Journal Finder "Library
-Supported" check and GWLA quota confirmation.
+an enumeration-median model recovers about half (0.53–0.58), and full
+tooth enumeration is the way to close the rest. Training on the full 705-image split reached mAP 0.27, up from 0.13 in the 40-image pilot, but backbone and resolution changed between the runs, so the comparison does not isolate training-set size. Mixed-site training raised the cross-site ranking on the CPU run (DENTEX AUC 0.28 to 0.84) but a three-seed GPU replication averaged only 0.53, so the ranking fix is not reliable and the operating point stays unstable. The v2 detector run (200 Tufts normal negatives) reached mAP 0.374 and fixed cross-site specificity at the operating point (0.51 on Tufts at ≥ 0.5, up from 0.09), while focal loss made it worse (0.223). The contribution is the evaluation design: harmonised cross-site testing, hierarchical scoring, and a failure taxonomy. Before submission we still need a site-robust classifier, an investigation of the periapical regression, and the Open Journal Finder check.
+
+## Supplementary material
+
+**Table S1.** Cross-site detector test on the Tufts test split (n=151): abnormal detected, normal flagged, sensitivity and specificity at score thresholds ≥ 0.5 and ≥ 0.3, for the CPU 705-image run, the GPU run, the v2 run, the v2 focal run, and the 40-image pilot.
+
+| Threshold | Abnormal detected (n=51) | Normal flagged (n=100) | Sensitivity | Specificity |
+|---|---|---|---|---|
+| ≥ 0.5 | 30 | 64 | 0.59 | 0.36 |
+| ≥ 0.3 | 47 | 85 | 0.92 | 0.15 |
+| GPU (≥ 0.5) | 46 | 91 | 0.90 | 0.09 |
+| GPU (≥ 0.3) | 46 | 92 | 0.90 | 0.08 |
+| v2 (≥ 0.5) | 30 | 49 | 0.59 | 0.51 |
+| v2 (≥ 0.3) | 36 | 66 | 0.71 | 0.34 |
+| v2 focal (≥ 0.5) | 23 | 42 | 0.45 | 0.58 |
+| v2 focal (≥ 0.3) | 49 | 91 | 0.96 | 0.09 |
+| Pilot (40 imgs, ≥ 0.5) | 38 | 84 | 0.75 | 0.16 |
+
+**Supplementary Figure S1.** ROC curves, classifier pilot: Tufts test and DENTEX validation.
+
+**Supplementary Figure S2.** ROC curves, GPU classifier rerun (mixed-site recipe, best epoch 1). Tufts test (n=151) and DENTEX validation (n=50, 4 normal images).
+
+**Supplementary Figure S3.** Example DENTEX validation panoramics with predicted boxes, full 705-image detector run. Predicted boxes in red (diagnosis and score shown); ground-truth boxes in lime dashed lines. Score threshold 0.5.
+
+## Acknowledgments
+
+Thanks to the Tufts Dental Database team and the DENTEX organisers for the open data.
 
 ## Declarations
 - Funding: none. Ethics: de-identified public-use data; no IRB required.
 - Data availability: Tufts (tdd.ece.tufts.edu) and DENTEX (Zenodo
-  7812323; Hugging Face ibrahimhamamci/DENTEX). Code: GitHub repo
-  (link on push). Competing interests: none.
+  7812323; Hugging Face ibrahimhamamci/DENTEX). Code: https://github.com/boakyejeff/dental-panoramic-ai. Competing interests: none. Consent to participate: not applicable (de-identified public-use data). Authors' contributions: Jeffrey Appiagyei conceived the study, built the models, ran the experiments, and wrote the manuscript.
 
-## References (to be completed on submission)
-1. Panetta K et al. Tufts Dental Database: A Multimodal Panoramic X-Ray
-   Dataset for Benchmarking Diagnostic Systems. IEEE J Biomed Health
-   Inform. 2022;26(4):1650–1659.
-2. Hamamci IE et al. DENTEX: An Abnormal Tooth Detection with Dental
-   Enumeration and Diagnosis Benchmark for Panoramic X-rays. arXiv:2305.19112 (2023).
-3. Hamamci IE et al. Diffusion-Based Hierarchical Multi-Label Object
-   Detection to Analyze Panoramic Dental X-rays. MICCAI 2023:389–399.
-4. [AIscend reproduction note on DENTEX public-release labels/licence, 2026 — cite as preprint/report.]
-5. Clinical Oral Investigations author guidelines (scope/aims).
+
+## References
+1. Schwendicke F, Samek W, Krois J. Artificial intelligence in dentistry: chances and challenges. J Dent Res. 2020;99(7):769-774. doi:10.1177/0022034520915714
+2. Panetta K, Rajendran R, Ramesh A, et al. Tufts Dental Database: a multimodal panoramic X-ray dataset for benchmarking diagnostic systems. IEEE J Biomed Health Inform. 2022;26(4):1650-1659. doi:10.1109/jbhi.2021.3117575
+3. Hamamci IE, Er S, Durugol OF, Cakmak GR, de la Rosa E, Simsar E, et al. DENTEX: Dental Enumeration and Tooth Pathosis Detection Benchmark for Panoramic X-ray. arXiv:2305.19112 (2023).
+4. Zech JR, Badgeley MA, Liu M, Zhang W, Marcus J, Zou J. Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs: a cross-sectional study. PLoS Med. 2018;15(11):e1002683. doi:10.1371/journal.pmed.1002683
+5. Oakden-Rayner L, Dunnmon J, Carneiro G, Re C. Hidden stratification causes clinically meaningful failures in machine learning for medical imaging. In: Proceedings of the ACM Conference on Health, Inference, and Learning. New York: ACM; 2020:151-159. doi:10.1145/3368555.3384468
+6. International Organization for Standardization. ISO 3950:2016. Dentistry: designation system for teeth and areas of the oral cavity. Geneva: ISO; 2016.
+7. Hamamci IE, Er S, Simsar E, Sekuboyina A, Gundogar M, Stadlinger B, et al. Diffusion-based hierarchical multi-label object detection to analyze panoramic dental X-rays. In: Medical Image Computing and Computer Assisted Intervention: MICCAI 2023. Lecture Notes in Computer Science. Cham: Springer; 2023:389-399. doi:10.1007/978-3-031-43987-2_38
+8. Guo C, Pleiss G, Sun Y, Weinberger KQ. On calibration of modern neural networks. In: Proceedings of the 34th International Conference on Machine Learning. Proceedings of Machine Learning Research. 2017;70:1321-1330. arXiv:1706.04599.
+9. Er S. DENTEX Challenge 2023 [dataset]. Zenodo; 2023. Available from: https://zenodo.org/records/7812323
+10. He K, Zhang X, Ren S, Sun J. Deep residual learning for image recognition. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. IEEE; 2016:770-778. doi:10.1109/CVPR.2016.90
+11. Deng J, Dong W, Socher R, Li LJ, Li K, Fei-Fei L. ImageNet: a large-scale hierarchical image database. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. IEEE; 2009:248-255. doi:10.1109/CVPR.2009.5206848
+12. Kingma DP, Ba J. Adam: a method for stochastic optimization. arXiv:1412.6980 (2014).
+13. Youden WJ. Index for rating diagnostic tests. Cancer. 1950;3(1):32-35. doi:10.1002/1097-0142(1950)3:1<32::AID-CNCR2820030106>3.0.CO;2-3
+14. Ren S, He K, Girshick R, Sun J. Faster R-CNN: towards real-time object detection with region proposal networks. IEEE Trans Pattern Anal Mach Intell. 2017;39(6):1137-1149. doi:10.1109/TPAMI.2016.2577031
+15. Howard A, Sandler M, Chu G, Chen LC, Chen B, Tan M, et al. Searching for MobileNetV3. In: Proceedings of the IEEE/CVF International Conference on Computer Vision. IEEE; 2019:1314-1324. doi:10.1109/ICCV.2019.00140
+16. Lin TY, Dollar P, Girshick R, He K, Hariharan B, Belongie S. Feature pyramid networks for object detection. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. IEEE; 2017:936-944. doi:10.1109/CVPR.2017.106
+17. Lin TY, Maire M, Belongie S, Hays J, Perona P, Ramanan D, et al. Microsoft COCO: common objects in context. In: Computer Vision: ECCV 2014. Lecture Notes in Computer Science. Cham: Springer; 2014:740-755. doi:10.1007/978-3-319-10602-1_48
+18. Everingham M, Van Gool L, Williams CKI, Winn J, Zisserman A. The PASCAL Visual Object Classes (VOC) challenge. Int J Comput Vis. 2010;88(2):303-338. doi:10.1007/s11263-009-0275-4
+19. Geirhos R, Jacobsen JH, Michaelis C, Zemel R, Brendel W, Bethge M, et al. Shortcut learning in deep neural networks. Nat Mach Intell. 2020;2:665-673. doi:10.1038/s42256-020-00257-z
+20. Tuzoff DV, Tuzova LN, Bornstein MM, Krasnov AS, Kharchenko MA, Nikolenko SI, et al. Tooth detection and numbering in panoramic radiographs using convolutional neural networks. Dentomaxillofac Radiol. 2019;48(4):20180051. doi:10.1259/dmfr.20180051
+21. Collins GS, Moons KGM, Dhiman P, Riley RD, Beam AL, Van Calster B, et al. TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods. BMJ. 2024;385:e078378. doi:10.1136/bmj-2023-078378
+22. Ganin Y, Lempitsky V. Unsupervised domain adaptation by backpropagation. In: Proceedings of the 32nd International Conference on Machine Learning. Proceedings of Machine Learning Research. 2015;37:1180-1189.
